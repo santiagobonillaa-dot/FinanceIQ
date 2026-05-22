@@ -1,0 +1,220 @@
+<app-main-layout pageTitle="Portafolio">
+  <div class="space-y-8">
+    <!-- 4 primeros paneles de Deudas -->
+    <div class="grid gap-6 lg:grid-cols-4 mb-8" *ngIf="portfolioSummary as summary">
+      <div class="glass-panel p-8">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="panel-subtitle">Valor Total</h3>
+          <img src="assets/icons/page-content/deudas/deuda-total.svg" class="w-6 h-6" alt="Valor" />
+        </div>
+        <p class="text-4xl font-bold text-white">{{ formatCurrency(summary.totalValue) }}</p>
+        <p class="text-lg text-green-400 mt-2">{{ summary.positionsCount }} activos</p>
+      </div>
+      <div class="glass-panel p-8">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="panel-subtitle">Ganancias Hoy</h3>
+          <img src="assets/icons/page-content/deudas/pago-mensual-total.svg" class="w-6 h-6" alt="Ganancias" />
+        </div>
+        <p class="text-4xl font-bold text-white">{{ formatCurrency(summary.dailyGain) }}</p>
+        <p class="text-lg" [ngClass]="getChangeClass(summary.dailyGainPct)">{{ summary.dailyGainPct | number:'1.2-2' }}% hoy</p>
+      </div>
+      <div class="glass-panel p-8">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="panel-subtitle">Riesgo Portafolio</h3>
+          <img src="assets/icons/page-content/deudas/tasa-promedio.svg" class="w-6 h-6" alt="Riesgo" />
+        </div>
+        <p class="text-4xl font-bold text-white">{{ summary.riskScore }}</p>
+        <p class="text-lg text-white/60 mt-2">{{ summary.riskLabel }}</p>
+      </div>
+      <div class="glass-panel p-8">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="panel-subtitle">Rendimiento YTD</h3>
+          <img src="assets/icons/page-content/deudas/intereses-pagados.svg" class="w-6 h-6" alt="Rendimiento" />
+        </div>
+        <p class="text-4xl font-bold text-white">{{ summary.totalReturnPct | number:'1.1-1' }}%</p>
+        <p class="text-lg text-white/60 mt-2">Consolidado anual</p>
+      </div>
+    </div>
+
+    <!-- Panel 4 y 5 del dashboard (Flujo de caja y Distribución de gastos) -->
+    <section class="grid gap-6 lg:grid-cols-2">
+      <div class="chart-panel">
+        <div class="chart-panel-header">
+          <div>
+            <p class="chart-panel-title">Rendimiento del Portafolio</p>
+            <p class="chart-panel-subtitle">Valoración histórica - 6 meses</p>
+          </div>
+          <div class="flex items-center gap-2 text-white/60 text-sm">
+            <div class="w-3 h-3 rounded-full bg-emerald-400"></div>
+            <span>Near Real-Time</span>
+          </div>
+        </div>
+        <div class="chart-content-large">
+          <app-chart 
+            type="line" 
+            [data]="portfolioPerformanceData" 
+            [options]="chartOptions">
+          </app-chart>
+        </div>
+      </div>
+      
+      <div class="chart-panel">
+        <div class="chart-panel-header">
+          <div>
+            <p class="chart-panel-title">Distribución de activos</p>
+            <p class="chart-panel-subtitle">Por categoría - Este mes</p>
+          </div>
+        </div>
+        <div class="chart-content flex items-center justify-center" style="height: 400px; width: 100%; padding: 1rem;">
+          <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+            <app-chart 
+              type="doughnut" 
+              [data]="expensesData" 
+              [options]="doughnutOptions">
+            </app-chart>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Panel 8 del dashboard como panel 6 -->
+    <section class="grid gap-6">
+      <div class="glass-panel p-6">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h3 class="text-2xl font-bold text-white">Posiciones Activas</h3>
+            <p class="text-lg text-white/60">Detalles de inversión y performance</p>
+          </div>
+          <button class="px-4 py-2 bg-blue-500 text-white rounded-xl text-sm flex items-center gap-2" type="button" (click)="openPositionModal()">
+            <span>+ Agregar Posición</span>
+          </button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full min-w-[800px]">
+            <thead>
+              <tr class="border-b border-white/10 text-xs text-white/60">
+                <th class="text-left py-3 px-2">Activo</th>
+                <th class="text-right py-3 px-2">Cantidad</th>
+                <th class="text-right py-3 px-2">Precio Promedio</th>
+                <th class="text-right py-3 px-2">Precio Actual</th>
+                <th class="text-right py-3 px-2">P&L</th>
+                <th class="text-center py-3 px-2">Cambio Hoy</th>
+                <th class="text-right py-3 px-2">Valor</th>
+                <th class="text-left py-3 px-2">% Portafolio</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-white/5" *ngFor="let position of portfolioPositions; let last = last" [class.border-b-0]="last">
+                <td class="text-white text-sm py-3 px-2">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center" [ngClass]="position.badgeClass">
+                      <span class="font-semibold text-sm">{{ position.initials }}</span>
+                    </div>
+                    <div>
+                      <p class="text-white text-sm">{{ position.ticker }}</p>
+                      <p class="text-xs text-white/50">{{ position.name }}</p>
+                    </div>
+                  </div>
+                </td>
+                <td class="text-white text-sm py-3 px-2 text-right">{{ position.quantity | number:'1.0-2' }}</td>
+                <td class="text-white text-sm py-3 px-2 text-right">{{ formatCurrency(position.averagePrice) }}</td>
+                <td class="text-white text-sm py-3 px-2 text-right">{{ formatCurrency(position.price) }}</td>
+                <td class="text-sm py-3 px-2 text-right" [ngClass]="getChangeClass(position.dailyPnL)">
+                  {{ formatCurrency(position.dailyPnL) }}
+                </td>
+                <td class="text-sm py-3 px-2 text-center" [ngClass]="getChangeClass(position.dailyChangePct)">
+                  {{ position.dailyChangePct | number:'1.2-2' }}%
+                </td>
+                <td class="text-white text-sm py-3 px-2 text-right">{{ formatCurrency(position.total) }}</td>
+                <td class="text-white text-sm py-3 px-2">
+                  <div class="flex items-center gap-3">
+                    <span class="text-white/70 text-xs">{{ getPositionWeight(position) }}%</span>
+                    <div class="flex-1 h-2 bg-white/10 rounded-full">
+                      <div class="h-2 rounded-full bg-gradient-to-r from-blue-500 to-emerald-400" [style.width.%]="getPositionWeight(position)"></div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 3 subpáneles sin color de fondo -->
+        <div class="grid gap-6 lg:grid-cols-3 mt-6" *ngIf="performanceBreakdown as perf">
+          <div class="p-8 rounded-xl border border-white/10">
+            <div class="flex items-center justify-between mb-4">
+              <p class="text-sm text-white/60">Rendimiento del día</p>
+            </div>
+            <p class="text-4xl font-bold text-white">{{ formatCurrency(perf.day.amount) }}</p>
+            <p class="text-lg" [ngClass]="getChangeClass(perf.day.pct)">{{ perf.day.pct | number:'1.2-2' }}%</p>
+          </div>
+          <div class="p-8 rounded-xl border border-white/10">
+            <div class="flex items-center justify-between mb-4">
+              <p class="text-sm text-white/60">Ganancias semana</p>
+            </div>
+            <p class="text-4xl font-bold text-white">{{ formatCurrency(perf.week.amount) }}</p>
+            <p class="text-lg" [ngClass]="getChangeClass(perf.week.pct)">{{ perf.week.pct | number:'1.2-2' }}%</p>
+          </div>
+          <div class="p-8 rounded-xl border border-white/10">
+            <div class="flex items-center justify-between mb-4">
+              <p class="text-sm text-white/60">Rendimiento mensual</p>
+            </div>
+            <p class="text-4xl font-bold text-white">{{ formatCurrency(perf.month.amount) }}</p>
+            <p class="text-lg" [ngClass]="getChangeClass(perf.month.pct)">{{ perf.month.pct | number:'1.2-2' }}%</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</app-main-layout>
+
+<div class="modal-overlay" *ngIf="positionModalOpen">
+  <div class="modal-content max-w-xl w-full">
+    <div class="modal-header">
+      <h3 class="text-xl font-semibold text-white">Agregar nueva posición</h3>
+      <button type="button" class="text-white/60 hover:text-white" (click)="closePositionModal()">✕</button>
+    </div>
+
+    <form [formGroup]="positionForm" (ngSubmit)="savePosition()" class="space-y-4">
+      <div class="grid md:grid-cols-2 gap-4">
+        <label class="form-field">
+          <span>Ticker</span>
+          <input type="text" formControlName="ticker" placeholder="Ej. AAPL" />
+        </label>
+        <label class="form-field">
+          <span>Nombre</span>
+          <input type="text" formControlName="name" placeholder="Apple Inc." />
+        </label>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-4">
+        <label class="form-field">
+          <span>Categoría</span>
+          <select formControlName="category">
+            <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+          </select>
+        </label>
+        <label class="form-field">
+          <span>Cantidad</span>
+          <input type="number" step="0.01" formControlName="quantity" />
+        </label>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-4">
+        <label class="form-field">
+          <span>Precio promedio</span>
+          <input type="number" step="100" formControlName="averagePrice" />
+        </label>
+        <label class="form-field">
+          <span>Precio actual</span>
+          <input type="number" step="100" formControlName="price" />
+        </label>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-outline" (click)="closePositionModal()">Cancelar</button>
+        <button type="submit" class="btn-primary" [disabled]="positionForm.invalid">Guardar posición</button>
+      </div>
+    </form>
+  </div>
+</div>

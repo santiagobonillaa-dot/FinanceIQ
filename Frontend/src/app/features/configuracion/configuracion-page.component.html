@@ -1,0 +1,355 @@
+<app-main-layout pageTitle="Configuración">
+  <!-- Panel Principal con título y subtítulo -->
+  <div class="glass-panel p-8 mb-6">
+    <div class="flex items-center gap-6">
+      <div class="w-20 h-20 bg-gradient-to-br from-[#0066ff] to-[#00d897] rounded-xl flex items-center justify-center">
+        <img src="assets/icons/page-content/configuracion/logo-configuracion.svg" class="w-12 h-12" alt="Configuración" />
+      </div>
+      <div>
+        <h2 class="panel-title-main">Configuración</h2>
+        <p class="panel-subtitle" style="font-size: 1.5rem !important;">Gestiona tu perfil y preferencias de la plataforma</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid gap-6 lg:grid-cols-3">
+    <div class="lg:col-span-1">
+      <!-- Opciones fuera del panel, en el mismo fondo -->
+      <nav class="space-y-2 text-lg">
+        <button
+          type="button"
+          class="w-full text-left configuracion-nav-item rounded-xl transition border"
+          [ngClass]="selectedOption === 'Perfil' ? 'text-white bg-[#2c6fff] border-[#5485ff] shadow-[0_10px_30px_rgba(44,111,255,0.35)]' : 'text-gray-400 border-transparent hover:text-white hover:bg-white/10'"
+          (click)="setSelectedOption('Perfil')"
+        >
+          <span class="flex items-center gap-3">
+            <img src="assets/icons/page-content/configuracion/perfil.svg" class="w-5 h-5" alt="Perfil" />
+            Perfil
+          </span>
+        </button>
+        <button
+          type="button"
+          class="w-full text-left configuracion-nav-item rounded-xl transition border"
+          [ngClass]="selectedOption === 'Monedas' ? 'text-white bg-[#2c6fff] border-[#5485ff] shadow-[0_10px_30px_rgba(44,111,255,0.35)]' : 'text-gray-400 border-transparent hover:text-white hover:bg-white/10'"
+          (click)="setSelectedOption('Monedas')"
+        >
+          <span class="flex items-center gap-3">
+            <img src="assets/icons/page-content/configuracion/monedas.svg" class="w-5 h-5" alt="Monedas" />
+            Monedas
+          </span>
+        </button>
+        <button
+          type="button"
+          class="w-full text-left configuracion-nav-item rounded-xl transition border"
+          [ngClass]="selectedOption === 'Datos' ? 'text-white bg-[#2c6fff] border-[#5485ff] shadow-[0_10px_30px_rgba(44,111,255,0.35)]' : 'text-gray-400 border-transparent hover:text-white hover:bg-white/10'"
+          (click)="setSelectedOption('Datos')"
+        >
+          <span class="flex items-center gap-3">
+            <img src="assets/icons/page-content/configuracion/notificaciones.svg" class="w-5 h-5" alt="Datos" />
+            Datos y Exportación
+          </span>
+        </button>
+      </nav>
+    </div>
+
+    <div class="lg:col-span-2 space-y-6">
+      <ng-container [ngSwitch]="selectedOption">
+        <ng-container *ngSwitchCase="'Perfil'">
+          <div class="glass-panel p-6 text-lg">
+            <div class="flex items-center justify-between mb-6">
+              <h3 class="configuracion-section-title">Información del Perfil</h3>
+              <button 
+                *ngIf="!isEditing"
+                (click)="toggleEdit()"
+                class="px-4 py-2 bg-brand-primary text-white rounded-lg hover:bg-brand-primary/80 transition text-lg">
+                Editar Perfil
+              </button>
+              <div *ngIf="isEditing" class="flex gap-2">
+                <button 
+                  (click)="saveProfile()"
+                  class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition text-lg">
+                  Guardar
+                </button>
+                <button 
+                  (click)="toggleEdit()"
+                  class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition text-lg">
+                  Cancelar
+                </button>
+              </div>
+            </div>
+            
+            <div class="space-y-4">
+              <div class="flex items-center gap-4">
+                <div class="w-24 h-24 rounded-full bg-gradient-to-br from-brand-primary to-brand-secondary flex items-center justify-center">
+                  <img src="assets/icons/page-content/configuracion/informacion-personal.svg" class="w-10 h-10 text-white" alt="Información Personal" />
+                </div>
+                <div>
+                  <p class="text-3xl font-semibold">{{ userProfile.name || 'Usuario' }} {{ userProfile.lastName || 'Demo' }}</p>
+                  <p class="text-xl text-white/60">{{ userProfile.role || 'Analista Financiero' }}</p>
+                  <button class="mt-2 text-xl text-brand-primary hover:text-brand-secondary transition">
+                    Cambiar foto
+                  </button>
+                </div>
+              </div>
+              
+              <form [formGroup]="profileForm" class="grid gap-4 md:grid-cols-2">
+                <div>
+                  <label class="configuracion-label mb-2 block">Nombre</label>
+                  <input 
+                    type="text" 
+                    formControlName="name"
+                    [readonly]="!isEditing"
+                    [class]="isEditing 
+                      ? 'w-full bg-gray-900 border border-white/10 rounded-lg configuracion-input' 
+                      : 'w-full bg-gray-800 border border-white/5 rounded-lg configuracion-input text-white/70'" 
+                  />
+                </div>
+                <div>
+                  <label class="configuracion-label mb-2 block">Apellido</label>
+                  <input 
+                    type="text" 
+                    formControlName="lastName"
+                    [readonly]="!isEditing"
+                    [class]="isEditing 
+                      ? 'w-full bg-gray-900 border border-white/10 rounded-lg configuracion-input' 
+                      : 'w-full bg-gray-800 border border-white/5 rounded-lg configuracion-input text-white/70'" 
+                  />
+                </div>
+                <div>
+                  <label class="configuracion-label mb-2 block">Email</label>
+                  <input 
+                    type="email" 
+                    formControlName="email"
+                    [readonly]="!isEditing"
+                    [class]="isEditing 
+                      ? 'w-full bg-gray-900 border border-white/10 rounded-lg configuracion-input' 
+                      : 'w-full bg-gray-800 border border-white/5 rounded-lg configuracion-input text-white/70'" 
+                  />
+                </div>
+                <div>
+                  <label class="configuracion-label mb-2 block">Teléfono</label>
+                  <input 
+                    type="tel" 
+                    formControlName="phone"
+                    [readonly]="!isEditing"
+                    [class]="isEditing 
+                      ? 'w-full bg-gray-900 border border-white/10 rounded-lg configuracion-input' 
+                      : 'w-full bg-gray-800 border border-white/5 rounded-lg configuracion-input text-white/70'" 
+                  />
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="glass-panel p-6">
+            <h3 class="configuracion-section-title mb-6">Preferencias de Notificaciones</h3>
+            <div class="space-y-4">
+              <!-- Subpanel 1: Alertas de Sobregasto -->
+              <div class="bg-white/5 rounded-xl p-4 border border-white/10">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="configuracion-preferencia-title">Alertas de Sobregasto</p>
+                    <p class="configuracion-preferencia-desc text-white/60">Notificar cuando supere límites de gasto</p>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" class="sr-only peer" checked>
+                    <div class="w-11 h-6 bg-white/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-primary"></div>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Subpanel 2: Vencimientos de Pago -->
+              <div class="bg-white/5 rounded-xl p-4 border border-white/10">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="configuracion-preferencia-title">Vencimientos de Pago</p>
+                    <p class="configuracion-preferencia-desc text-white/60">Recordatorios de próximos pagos</p>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" class="sr-only peer" checked>
+                    <div class="w-11 h-6 bg-white/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-primary"></div>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Subpanel 3: Insights de Mercado -->
+              <div class="bg-white/5 rounded-xl p-4 border border-white/10">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="configuracion-preferencia-title">Insights de Mercado</p>
+                    <p class="configuracion-preferencia-desc text-white/60">Análisis y recomendaciones de inversión</p>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" class="sr-only peer">
+                    <div class="w-11 h-6 bg-white/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-primary"></div>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Subpanel 4: Actualizaciones del Sistema -->
+              <div class="bg-white/5 rounded-xl p-4 border border-white/10">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="configuracion-preferencia-title">Actualizaciones del Sistema</p>
+                    <p class="configuracion-preferencia-desc text-white/60">Nuevas funcionalidades y mejoras</p>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" class="sr-only peer">
+                    <div class="w-11 h-6 bg-white/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-primary"></div>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Subpanel 5: Metas de Ahorro -->
+              <div class="bg-white/5 rounded-xl p-4 border border-white/10">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="configuracion-preferencia-title">Metas de Ahorro</p>
+                    <p class="configuracion-preferencia-desc text-white/60">Seguimiento de objetivos financieros</p>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" class="sr-only peer">
+                    <div class="w-11 h-6 bg-white/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-primary"></div>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Subpanel 6: Resumen Semanal -->
+              <div class="bg-white/5 rounded-xl p-4 border border-white/10">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="configuracion-preferencia-title">Resumen Semanal</p>
+                    <p class="configuracion-preferencia-desc text-white/60">Reporte financiero semanal por email</p>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" class="sr-only peer">
+                    <div class="w-11 h-6 bg-white/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-primary"></div>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'Monedas'">
+          <div class="glass-panel p-6 space-y-6">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-gradient-to-br from-[#0066ff] to-[#00d897] rounded-xl flex items-center justify-center">
+                <img src="assets/icons/page-content/configuracion/azul-confiuracion-monedas.svg" class="w-6 h-6" alt="Configuración de Monedas" />
+              </div>
+              <h3 class="configuracion-section-title">Configuración de Monedas</h3>
+            </div>
+
+            <div class="space-y-4">
+              <div class="bg-white/5 rounded-xl p-4 border border-white/10">
+                <div class="flex items-center justify-between mb-3">
+                  <div>
+                    <p class="font-semibold text-white">Moneda Principal</p>
+                    <p class="text-sm text-white/60">Moneda base para tu cuenta</p>
+                  </div>
+                  <select class="bg-gray-900 border border-white/10 rounded-lg px-3 py-2 text-white">
+                    <option value="USD" selected>USD - Dólar Americano</option>
+                    <option value="EUR">EUR - Euro</option>
+                    <option value="COP">COP - Peso Colombiano</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="bg-white/5 rounded-xl p-4 border border-white/10">
+                <div class="flex items-center justify-between mb-3">
+                  <div>
+                    <p class="font-semibold text-white">Monedas Adicionales</p>
+                    <p class="text-sm text-white/60">Monedas para mostrar en portafolio</p>
+                  </div>
+                </div>
+                <div class="space-y-2">
+                  <label class="flex items-center gap-3">
+                    <input type="checkbox" checked class="rounded border-white/20 bg-gray-900">
+                    <span>EUR - Euro</span>
+                  </label>
+                  <label class="flex items-center gap-3">
+                    <input type="checkbox" checked class="rounded border-white/20 bg-gray-900">
+                    <span>COP - Peso Colombiano</span>
+                  </label>
+                  <label class="flex items-center gap-3">
+                    <input type="checkbox" class="rounded border-white/20 bg-gray-900">
+                    <span>GBP - Libra Esterlina</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="bg-white/5 rounded-xl p-4 border border-white/10">
+                <div class="flex items-center justify-between mb-3">
+                  <div>
+                    <p class="font-semibold text-white">Actualización de Tipos de Cambio</p>
+                    <p class="text-sm text-white/60">Frecuencia de actualización</p>
+                  </div>
+                  <select class="bg-gray-900 border border-white/10 rounded-lg px-3 py-2 text-white">
+                    <option value="realtime" selected>Tiempo Real</option>
+                    <option value="hourly">Cada Hora</option>
+                    <option value="daily">Diario</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'Datos'">
+          <div class="glass-panel p-6 space-y-6">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-gradient-to-br from-[#0066ff] to-[#00d897] rounded-xl flex items-center justify-center">
+                <img src="assets/icons/page-content/configuracion/notificaciones.svg" class="w-6 h-6" alt="Datos y Exportación" />
+              </div>
+              <h3 class="configuracion-section-title">Datos y Exportación</h3>
+            </div>
+
+            <div class="space-y-4">
+              <div class="bg-white/5 rounded-xl p-4 border border-white/10">
+                <div class="flex items-center justify-between mb-3">
+                  <div>
+                    <p class="font-semibold text-white">Exportar Datos</p>
+                    <p class="text-sm text-white/60">Descargar toda tu información financiera</p>
+                  </div>
+                </div>
+                <div class="space-y-3">
+                  <button class="w-full bg-brand-primary text-white px-4 py-2 rounded-lg hover:bg-brand-primary/80 transition">
+                    Exportar como CSV
+                  </button>
+                  <button class="w-full bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition">
+                    Exportar como JSON
+                  </button>
+                </div>
+              </div>
+
+              <div class="bg-white/5 rounded-xl p-4 border border-white/10">
+                <div class="flex items-center justify-between mb-3">
+                  <div>
+                    <p class="font-semibold text-white">Respaldo Automático</p>
+                    <p class="text-sm text-white/60">Guardar copias de seguridad en la nube</p>
+                  </div>
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" class="sr-only peer" checked>
+                    <div class="w-11 h-6 bg-white/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-primary"></div>
+                  </label>
+                </div>
+              </div>
+
+              <div class="bg-white/5 rounded-xl p-4 border border-white/10">
+                <div class="flex items-center justify-between mb-3">
+                  <div>
+                    <p class="font-semibold text-white">Eliminar Cuenta</p>
+                    <p class="text-sm text-white/60">Eliminar permanentemente todos tus datos</p>
+                  </div>
+                  <button class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition">
+                    Eliminar Cuenta
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</app-main-layout>

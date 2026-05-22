@@ -1,0 +1,298 @@
+// Estilos específicos para el componente de dashboard
+.metric-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.metric-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.metric-card-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.metric-card-title {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 0.25rem;
+}
+
+.metric-card-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.metric-card-percentage {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.metric-card-percentage-value {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #22c55e;
+}
+
+.chart-panel {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+
+.chart-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.chart-content-large {
+  height: 400px;
+  width: 100%;
+}
+
+.chart-content {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+// Estilos para tablas
+.table-header {
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.table-text {
+  color: white;
+  font-size: 0.875rem;
+
+  &.text-green-400 {
+    color: #22c55e;
+  }
+
+  &.text-red-400 {
+    color: #ef4444;
+  }
+}
+
+// Animaciones
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.metric-card {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.chart-panel {
+  animation: fadeIn 0.8s ease-out;
+}
+
+.chart-panel:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .metric-card {
+    padding: 1rem;
+  }
+  
+  .metric-card-value {
+    font-size: 1.5rem;
+  }
+  
+  .chart-panel {
+    padding: 1rem;
+  }
+  
+  .chart-content-large {
+    height: 300px;
+  }
+  
+  .table-header,
+  .table-text {
+    font-size: 0.75rem;
+    padding: 0.5rem;
+  }
+}
+
+// Efectos hover
+.glass-panel:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+// Gradientes para métricas
+.metric-card-icon {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  border-radius: 8px;
+}
+
+// Estilos para los indicadores de rendimiento
+.performance-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  
+  &.positive {
+    background-color: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+  }
+  
+  &.negative {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+  }
+  
+  &.neutral {
+    background-color: rgba(156, 163, 175, 0.2);
+    color: #9ca3af;
+  }
+}
+
+// Estilos para los gráficos
+.chart-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  
+  canvas {
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
+
+// Animación de entrada para las secciones
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.chart-panel:nth-child(1) {
+  animation: slideInLeft 0.6s ease-out;
+}
+
+.chart-panel:nth-child(2) {
+  animation: slideInRight 0.6s ease-out 0.2s;
+}
+
+// Estilos para las tablas de datos
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  
+  th,
+  td {
+    text-align: left;
+    padding: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  th {
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+  
+  tr:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+}
+
+// Estilos para los badges de estado
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  
+  &.active {
+    background-color: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+  }
+  
+  &.inactive {
+    background-color: rgba(156, 163, 175, 0.2);
+    color: #9ca3af;
+  }
+}
+
+// Efectos de scroll
+.scrollbar-custom {
+  scrollbar-width: 6px;
+  scrollbar-height: 6px;
+  
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+  }
+}
+
+// Aplicar a las tablas con overflow
+.overflow-x-auto {
+  .data-table {
+    @extend .scrollbar-custom;
+  }
+}

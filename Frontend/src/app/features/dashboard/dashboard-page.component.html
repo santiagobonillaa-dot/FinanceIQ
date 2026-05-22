@@ -1,0 +1,210 @@
+<app-main-layout pageTitle="Inicio">
+  <div class="space-y-8">
+    <section class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div class="glass-panel p-8">
+        <div class="metric-card">
+          <div class="metric-card-content">
+            <div class="metric-card-icon">
+              <img src="assets/icons/page-content/dashboard/verde-patrimonio-neto.svg" alt="patrimonio" />
+            </div>
+            <p class="metric-card-title">Patrimonio Neto</p>
+            <p class="metric-card-value">{{ formatCurrency(portfolioTotalValue - totalExpenses) }}</p>
+          </div>
+          <div class="metric-card-percentage">
+            <p class="metric-card-percentage-value">+12.4%</p>
+          </div>
+        </div>
+      </div>
+      <div class="glass-panel p-8">
+        <div class="metric-card">
+          <div class="metric-card-content">
+            <div class="metric-card-icon">
+              <img src="assets/icons/page-content/dashboard/verde-liquidez-disponible-hoy.svg" alt="liquidez" />
+            </div>
+            <p class="metric-card-title">Liquidez Disponible Hoy</p>
+            <p class="metric-card-value">{{ formatCurrency(liquidityToday) }}</p>
+          </div>
+          <div class="metric-card-percentage">
+            <p class="metric-card-percentage-value">+8.4%</p>
+          </div>
+        </div>
+      </div>
+      <div class="glass-panel p-8">
+        <div class="metric-card">
+          <div class="metric-card-content">
+            <div class="metric-card-icon">
+              <img src="assets/icons/page-content/dashboard/rojo-liquidez-mensual-proyectada.svg" alt="proyectada" />
+            </div>
+            <p class="metric-card-title">Liquidez Mensual Proyectada</p>
+            <p class="metric-card-value">{{ formatCurrency(projectedLiquidity) }}</p>
+          </div>
+          <div class="metric-card-percentage">
+            <p class="metric-card-percentage-value text-brand-secondary">90d</p>
+          </div>
+        </div>
+      </div>
+      <div class="glass-panel p-8">
+        <div class="metric-card">
+          <div class="metric-card-content">
+            <div class="metric-card-icon">
+              <img src="assets/icons/page-content/dashboard/verde-rendimiento-portafolio.svg" alt="rendimiento" />
+            </div>
+            <p class="metric-card-title">Rendimiento del Portafolio</p>
+            <p class="metric-card-value">+{{ portfolioReturn.toFixed(1) }}%</p>
+          </div>
+          <div class="metric-card-percentage">
+            <p class="metric-card-percentage-value">+4.2%</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid gap-6 lg:grid-cols-2">
+      <div class="chart-panel">
+        <div class="chart-panel-header">
+          <div>
+            <p class="panel-title-main">Flujo de caja</p>
+            <p class="panel-subtitle">Ingresos vs Gastos - 6 meses</p>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="flex items-center gap-2">
+              <div class="w-3 h-3 rounded-full bg-green-400"></div>
+              <span class="text-white/60 text-sm">Ingresos</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="w-3 h-3 rounded-full bg-red-400"></div>
+              <span class="text-white/60 text-sm">Gastos</span>
+            </div>
+          </div>
+        </div>
+        <div class="chart-content-large">
+          <app-chart 
+            type="line" 
+            [data]="cashFlowData" 
+            [options]="chartOptions">
+          </app-chart>
+        </div>
+      </div>
+      
+      <div class="chart-panel">
+        <div class="chart-panel-header">
+          <div>
+            <p class="panel-title-main">Distribución de gastos</p>
+            <p class="panel-subtitle">Por categoría - Este mes</p>
+          </div>
+        </div>
+        <div class="chart-content flex items-center justify-center" style="height: 400px; width: 100%; padding: 1rem;">
+          <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+            <app-chart 
+              type="doughnut" 
+              [data]="expensesData" 
+              [options]="doughnutOptions">
+            </app-chart>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid gap-6">
+      <div class="glass-panel p-6">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h3 class="panel-title-main">Resumen de pasivos</h3>
+            <p class="panel-subtitle">Deudas activas y obligaciones</p>
+          </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="border-b border-white/10">
+                <th class="text-left text-white/60 table-header py-3 px-2">Deuda</th>
+                <th class="text-left text-white/60 table-header py-3 px-2">Cuota Mensual</th>
+                <th class="text-left text-white/60 table-header py-3 px-2">Tasa</th>
+                <th class="text-left text-white/60 table-header py-3 px-2">Saldo</th>
+                <th class="text-left text-white/60 table-header py-3 px-2">Vencimiento</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-white/5">
+                <td class="text-white table-text py-3 px-2">Tarjeta de crédito</td>
+                <td class="text-white table-text py-3 px-2">$450,000</td>
+                <td class="text-red-400 table-text py-3 px-2">28.5%</td>
+                <td class="text-white table-text py-3 px-2">$2,800,000</td>
+                <td class="text-white table-text py-3 px-2">15/04/2026</td>
+              </tr>
+              <tr class="border-b border-white/5">
+                <td class="text-white table-text py-3 px-2">Préstamo personal</td>
+                <td class="text-white table-text py-3 px-2">$850,000</td>
+                <td class="text-red-400 table-text py-3 px-2">22.3%</td>
+                <td class="text-white table-text py-3 px-2">$12,500,000</td>
+                <td class="text-white table-text py-3 px-2">30/06/2028</td>
+              </tr>
+              <tr class="border-b border-white/5">
+                <td class="text-white table-text py-3 px-2">Crédito vehicular</td>
+                <td class="text-white table-text py-3 px-2">$1,200,000</td>
+                <td class="text-red-400 table-text py-3 px-2">18.9%</td>
+                <td class="text-white table-text py-3 px-2">$35,000,000</td>
+                <td class="text-white table-text py-3 px-2">15/12/2029</td>
+              </tr>
+              <tr>
+                <td class="text-white table-text py-3 px-2">Hipoteca</td>
+                <td class="text-white table-text py-3 px-2">$2,100,000</td>
+                <td class="text-red-400 table-text py-3 px-2">12.5%</td>
+                <td class="text-white table-text py-3 px-2">$180,000,000</td>
+                <td class="text-white table-text py-3 px-2">01/03/2045</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid gap-6">
+      <div class="glass-panel p-6">
+        <div class="flex items-center justify-between mb-4">
+          <div>
+            <h3 class="panel-title-main">Valoración de Portafolio</h3>
+            <p class="panel-subtitle">Posiciones activas</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-2 h-2 rounded-full bg-green-400"></div>
+            <span class="text-sm text-white/50">mercado abierto</span>
+          </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="border-b border-white/10">
+                <th class="text-left text-white/60 table-header py-3 px-2">Activo</th>
+                <th class="text-left text-white/60 table-header py-3 px-2">Precio Actual</th>
+                <th class="text-left text-white/60 table-header py-3 px-2">Variación %</th>
+                <th class="text-left text-white/60 table-header py-3 px-2">P&L</th>
+                <th class="text-left text-white/60 table-header py-3 px-2">Valor Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-white/5" *ngFor="let position of portfolioPositions">
+                <td class="text-white table-text py-3 px-2">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center" [ngClass]="position.badgeBg">
+                      <span class="font-semibold text-sm" [ngClass]="position.badgeText">{{ position.initials }}</span>
+                    </div>
+                    <span class="text-white">{{ position.ticker }}</span>
+                  </div>
+                </td>
+                <td class="text-white table-text py-3 px-2">${{ position.price.toFixed(2) }}</td>
+                <td [ngClass]="getValueClass(position.variation)" class="table-text py-3 px-2">
+                  {{ position.variation > 0 ? '+' : '' }}{{ position.variation.toFixed(1) }}%
+                </td>
+                <td [ngClass]="getValueClass(position.pnl)" class="table-text py-3 px-2">
+                  {{ position.pnl > 0 ? '+' : '' }}{{ formatCurrency(position.pnl) }}
+                </td>
+                <td class="text-white table-text py-3 px-2">{{ formatCurrency(position.total) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+</app-main-layout>

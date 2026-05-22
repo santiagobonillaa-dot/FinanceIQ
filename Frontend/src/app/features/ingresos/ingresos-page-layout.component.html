@@ -1,0 +1,283 @@
+<app-main-layout pageTitle="Ingresos">
+  <div class="space-y-8">
+    <div class="grid gap-6 lg:grid-cols-3 mb-8">
+      <!-- Tarjeta 1: Ingresos Totales del Mes -->
+      <div class="glass-panel p-8 hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-green-500/20">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-2xl font-bold text-white">Ingresos Totales del Mes</h3>
+          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-green-500/20 to-green-600/20 flex items-center justify-center">
+            <img src="assets/icons/page-content/ingresos/verde-patrimonio-neto.svg" class="w-5 h-5" alt="Ingresos" />
+          </div>
+        </div>
+        <p class="text-4xl font-bold text-white mb-2">{{ formatCurrency(totalMonthlyIncome) }}</p>
+        <div class="flex items-center gap-2">
+          <span class="text-lg text-green-400 font-semibold">
+            {{ monthlyGrowth > 0 ? '+' : '' }}{{ monthlyGrowth.toFixed(1) }}%
+          </span>
+          <span class="text-white/60 text-sm">vs mes anterior</span>
+        </div>
+        <div class="mt-4 h-2 bg-white/10 rounded-full overflow-hidden">
+          <div class="h-full bg-gradient-to-r from-green-500 to-green-600 rounded-full transition-all duration-500" 
+               [style.width.%]="getProgressBarWidth(monthlyGrowth + 50)"></div>
+        </div>
+      </div>
+
+      <!-- Tarjeta 2: Ingresos Recurrentes -->
+      <div class="glass-panel p-8 hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/20">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-2xl font-bold text-white">Ingresos Recurrentes</h3>
+          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500/20 to-blue-600/20 flex items-center justify-center">
+            <img src="assets/icons/page-content/ingresos/ingresos-recurrentes.svg" class="w-5 h-5" alt="Recurrentes" />
+          </div>
+        </div>
+        <p class="text-4xl font-bold text-white mb-2">{{ formatCurrency(recurrentIncome) }}</p>
+        <div class="flex items-center gap-2">
+          <span class="text-lg text-blue-400 font-semibold">{{ recurrentPercentage.toFixed(0) }}%</span>
+          <span class="text-white/60 text-sm">del total</span>
+        </div>
+        <div class="mt-4 h-2 bg-white/10 rounded-full overflow-hidden">
+          <div class="h-full bg-gradient-to-r from-blue-500 to-blue-600 rounded-full transition-all duration-500" 
+               [style.width.%]="recurrentPercentage"></div>
+        </div>
+      </div>
+
+      <!-- Tarjeta 3: Fuentes Activas -->
+      <div class="glass-panel p-8 hover:scale-105 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/20">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-2xl font-bold text-white">Fuentes Activas</h3>
+          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500/20 to-purple-600/20 flex items-center justify-center">
+            <img src="assets/icons/page-content/ingresos/fuentes-activas.svg" class="w-5 h-5" alt="Fuentes" />
+          </div>
+        </div>
+        <p class="text-4xl font-bold text-white mb-2">{{ incomes.length }}</p>
+        <div class="flex items-center gap-2">
+          <span class="text-lg text-purple-400 font-semibold">{{ recurrentSources }}</span>
+          <span class="text-white/60 text-sm">recurrentes</span>
+        </div>
+        <div class="mt-4 flex gap-2">
+          <div class="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
+            <div class="h-full bg-gradient-to-r from-purple-500 to-purple-600 rounded-full transition-all duration-500" 
+                 [style.width.%]="getRecurrentPercentage()"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-panel p-8">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h2 class="text-2xl font-bold text-white">Tendencia de Ingresos</h2>
+          <p class="text-lg text-white/60">Últimos 12 meses</p>
+        </div>
+      </div>
+      <div class="flex justify-center">
+        <div class="chart-content" style="height: 400px; width: 1600px;">
+          <app-chart 
+            #trendChart
+            type="bar" 
+            [data]="incomeTrendData" 
+            [options]="incomeTrendOptions">
+          </app-chart>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-panel p-6">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h3 class="text-2xl font-bold text-white mb-2">Fuentes de Ingresos</h3>
+          <p class="text-white/60 text-sm">Gestiona todas tus fuentes de ingresos en un solo lugar</p>
+        </div>
+        <button 
+          class="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
+          (click)="showAddIncomeModal()"
+        >
+          <i class="fas fa-plus mr-2"></i>
+          Agregar Ingreso
+        </button>
+      </div>
+      
+      <!-- Tabla unificada de ingresos -->
+      <div class="overflow-x-auto">
+        <!-- Loading state -->
+        <div *ngIf="loading" class="text-center py-8">
+          <div class="text-white/60">Cargando ingresos...</div>
+        </div>
+
+        <!-- Error state -->
+        <div *ngIf="error" class="text-center py-8">
+          <div class="text-red-400">{{ error }}</div>
+        </div>
+
+        <!-- Empty state -->
+        <div *ngIf="!loading && !error && incomes.length === 0" class="text-center py-8">
+          <div class="text-white/60">No hay ingresos registrados</div>
+          <button 
+            class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+            (click)="showAddIncomeModal()"
+          >
+            Agregar primer ingreso
+          </button>
+        </div>
+
+        <!-- Data table -->
+        <table *ngIf="!loading && !error && incomes.length > 0" class="w-full">
+          <thead>
+            <tr class="border-b border-white/10">
+              <th class="text-left text-white/60 text-sm font-medium py-3 px-4">Fuente</th>
+              <th class="text-left text-white/60 text-sm font-medium py-3 px-4">Categoría</th>
+              <th class="text-left text-white/60 text-sm font-medium py-3 px-4">Monto</th>
+              <th class="text-left text-white/60 text-sm font-medium py-3 px-4">Frecuencia</th>
+              <th class="text-left text-white/60 text-sm font-medium py-3 px-4">Fecha</th>
+              <th class="text-left text-white/60 text-sm font-medium py-3 px-4">Estado</th>
+              <th class="text-right text-white/60 text-sm font-medium py-3 px-4">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let income of incomes" class="border-b border-white/5 hover:bg-white/5 transition-colors">
+              <td class="py-4 px-4">
+                <div class="flex items-center gap-3 income-source">
+                  <div class="w-12 h-12 rounded-full bg-gradient-to-br from-green-500/20 to-green-600/20 flex items-center justify-center">
+                    <img src="assets/icons/page-content/ingresos/verde-patrimonio-neto.svg" class="income-icon green" alt="Ingreso" />
+                  </div>
+                  <div>
+                    <div class="text-white font-semibold">{{ income.name }}</div>
+                    <div class="text-white/60 text-sm">{{ income.description || 'Sin descripción' }}</div>
+                  </div>
+                </div>
+              </td>
+              <td class="py-4 px-4">
+                <span class="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-sm">
+                  {{ getCategoryLabel(income.category) }}
+                </span>
+              </td>
+              <td class="py-4 px-4">
+                <div class="text-white font-semibold text-lg">
+                  {{ formatCurrency(income.amount, income.currency) }}
+                </div>
+                <div class="text-green-400 text-sm">
+                  {{ getFrequencyLabel(income.frequency) }}
+                </div>
+              </td>
+              <td class="py-4 px-4">
+                <span class="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm">
+                  {{ getFrequencyLabel(income.frequency) }}
+                </span>
+              </td>
+              <td class="py-4 px-4">
+                <div class="text-white">{{ formatDate(income.startDate) }}</div>
+                <div class="text-white/60 text-sm" *ngIf="income.nextPaymentDate">
+                  Próximo: {{ formatDate(income.nextPaymentDate) }}
+                </div>
+              </td>
+              <td class="py-4 px-4">
+                <span [class]="income.isActive ? 'px-3 py-1 bg-green-500/20 text-green-300 rounded-full text-sm' : 'px-3 py-1 bg-red-500/20 text-red-300 rounded-full text-sm'">
+                  {{ income.isActive ? 'Activo' : 'Inactivo' }}
+                </span>
+              </td>
+              <td class="py-4 px-4">
+                <div class="flex justify-end gap-2">
+                  <button 
+                    class="action-button edit-button"
+                    (click)="editIncome(income)"
+                    title="Editar (requiere confirmación)"
+                  >
+                    <img src="assets/icons/page-content/ingresos/editar-ingreso.svg" alt="Editar" />
+                  </button>
+                  <button 
+                    class="action-button delete-button"
+                    (click)="deleteIncome(income)"
+                    title="Eliminar (requiere doble confirmación)"
+                  >
+                    <img src="assets/icons/page-content/ingresos/eliminar-ingreso.svg" alt="Eliminar" />
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Resumen de ingresos -->
+      <div class="mt-6 pt-6 border-t border-white/10">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="text-center">
+            <div class="text-white/60 text-sm">Total mensual</div>
+            <div class="text-white text-2xl font-bold">
+              {{ formatCurrency(calculateTotalMonthly()) }}
+            </div>
+            <div class="text-green-400 text-sm">
+              {{ incomes.length }} ingresos activos
+            </div>
+          </div>
+          <div class="text-center">
+            <div class="text-white/60 text-sm">Ingresos activos</div>
+            <div class="text-white text-2xl font-bold">{{ incomes.length }}</div>
+            <div class="text-white/60 text-sm">
+              {{ getActiveIncomesCount() }} activos, {{ getInactiveIncomesCount() }} inactivos
+            </div>
+          </div>
+          <div class="text-center">
+            <div class="text-white/60 text-sm">Proyección anual</div>
+            <div class="text-white text-2xl font-bold">
+              {{ formatCurrency(calculateAnnualProjection()) }}
+            </div>
+            <div class="text-green-400 text-sm">Basado en ingresos actuales</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal para Agregar/Editar Ingreso -->
+    <div *ngIf="showIncomeModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm">
+      <div class="bg-gray-900 border border-white/10 rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+        <div class="flex items-center justify-between mb-6 pb-4 border-b border-white/10">
+          <div>
+            <h3 class="text-2xl font-bold text-white mb-2">
+              {{ editingIncome ? 'Editar Ingreso' : 'Agregar Nuevo Ingreso' }}
+            </h3>
+            <p class="text-white/60 text-sm">
+              {{ editingIncome ? 'Modifica los datos del ingreso existente' : 'Completa los datos para agregar un nuevo ingreso' }}
+            </p>
+          </div>
+          <button 
+            class="p-2 text-white/60 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+            (click)="closeIncomeModal()"
+          >
+            <i class="fas fa-times text-xl"></i>
+          </button>
+        </div>
+        
+        <div class="mb-6">
+          <app-ingresos-form *ngIf="showIncomeModal"></app-ingresos-form>
+        </div>
+        
+        <div class="flex justify-end gap-3 pt-4 border-t border-white/10">
+          <button 
+            class="px-6 py-3 bg-gray-700/50 text-white rounded-lg hover:bg-gray-700 transition-colors border border-white/10"
+            (click)="closeIncomeModal()"
+          >
+            <i class="fas fa-times mr-2"></i>
+            Cerrar
+          </button>
+          <button 
+            type="submit"
+            form="incomeForm"
+            class="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg"
+          >
+            <i class="fas fa-save mr-2"></i>
+            {{ editingIncome ? 'Actualizar' : 'Guardar' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de Confirmación Personalizado -->
+    <app-confirmation-modal
+      [isVisible]="showConfirmationModal"
+      [data]="confirmationData"
+      (confirm)="onConfirmationConfirm($event)"
+      (cancel)="onConfirmationCancel()"
+    ></app-confirmation-modal>
+  </div>
+</app-main-layout>

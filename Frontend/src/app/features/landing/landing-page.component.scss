@@ -1,0 +1,230 @@
+// Estilos específicos para la página de landing
+.hero-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-panel {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+}
+
+.glass-gradient {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+}
+
+// Animaciones
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.hero-title {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.hero-description {
+  animation: fadeInUp 0.8s ease-out 0.2s;
+}
+
+.hero-buttons {
+  animation: fadeInUp 0.8s ease-out 0.4s;
+}
+
+.demo-panel {
+  animation: fadeInUp 0.8s ease-out 0.6s;
+}
+
+.demo-panel:hover {
+  transform: translateY(-5px);
+  transition: transform 0.3s ease;
+}
+
+// Efecto de brillo
+.glow-effect {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 384px;
+  height: 384px;
+  background: rgba(0, 102, 255, 0.2);
+  border-radius: 50%;
+  filter: blur(96px);
+  animation: float 6s ease-in-out infinite;
+}
+
+// Estilos para los paneles de problemas y soluciones
+.problem-panel {
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  &:hover::before {
+    opacity: 1;
+  }
+}
+
+.solution-panel {
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 216, 151, 0.1) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  &:hover::before {
+    opacity: 1;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .hero-section {
+    text-align: center;
+  }
+  
+  .hero-title {
+    font-size: 3rem;
+  }
+  
+  .hero-description {
+    font-size: 1.125rem;
+  }
+  
+  .hero-buttons {
+    justify-content: center;
+  }
+  
+  .demo-panel {
+    margin-bottom: 2rem;
+  }
+  
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Estilos para navegación
+.navbar {
+  backdrop-filter: blur(16px);
+  transition: all 0.3s ease;
+}
+
+.navbar-link {
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: currentColor;
+    transition: width 0.3s ease;
+  }
+  
+  &:hover::after {
+    width: 100%;
+  }
+}
+
+// Animación de entrada para elementos
+.animate-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-in:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.animate-in:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.animate-in:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+// Gradientes de fondo
+.bg-gradient-surface {
+  background: linear-gradient(135deg, 
+    rgba(10, 14, 26, 1) 0%, 
+    rgba(20, 24, 36, 1) 50%, 
+    rgba(10, 14, 26, 1) 100%
+  );
+}
+
+// Efectos de scroll
+.scroll-indicator {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 30px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  cursor: pointer;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    animation: bounce 2s infinite;
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  40%, 43% {
+    transform: translate(-50%, -50%) translateY(-10px);
+  }
+}

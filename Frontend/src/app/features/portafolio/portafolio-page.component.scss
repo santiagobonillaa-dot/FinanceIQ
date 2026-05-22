@@ -1,0 +1,403 @@
+// Estilos específicos para el componente de portafolio
+.chart-content-large {
+  height: 400px;
+  width: 100%;
+}
+
+// Estilos para los paneles de gráficos
+.chart-panel {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+
+.chart-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.chart-panel-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 0.25rem;
+}
+
+.chart-panel-subtitle {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+// Estilos para la tabla de portafolio
+.portfolio-table {
+  width: 100%;
+  border-collapse: collapse;
+  
+  th,
+  td {
+    text-align: left;
+    padding: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  th {
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+  
+  tr:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+}
+
+// Estilos para los badges de activos
+.asset-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  
+  .asset-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.875rem;
+  }
+  
+  .asset-name {
+    font-weight: 500;
+    color: white;
+  }
+}
+
+// Estilos para los indicadores de rendimiento
+.performance-indicator {
+  &.positive {
+    color: #22c55e;
+  }
+  
+  &.negative {
+    color: #ef4444;
+  }
+  
+  &.neutral {
+    color: #9ca3af;
+  }
+}
+
+// Estilos para los paneles de métricas
+.metric-panel {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  padding: 2rem;
+  
+  .metric-label {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 0.5rem;
+  }
+  
+  .metric-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.5rem;
+  }
+  
+  .metric-change {
+    font-size: 1.125rem;
+    font-weight: 600;
+    
+    &.positive {
+      color: #22c55e;
+    }
+    
+    &.negative {
+      color: #ef4444;
+    }
+  }
+}
+
+// Estilos para el riesgo del portafolio
+.risk-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  
+  .risk-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: white;
+  }
+  
+  .risk-label {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  &.low {
+    background-color: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+  }
+  
+  &.moderate {
+    background-color: rgba(245, 158, 11, 0.2);
+    color: #f59e0b;
+  }
+  
+  &.high {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+  }
+}
+
+// Animaciones
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.metric-card {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.chart-panel {
+  animation: fadeIn 0.8s ease-out 0.2s;
+}
+
+.summary-panel {
+  animation: fadeIn 0.8s ease-out 0.4s;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .chart-content-large {
+    height: 300px;
+  }
+  
+  .metric-panel {
+    padding: 1.5rem;
+    
+    .metric-value {
+      font-size: 2rem;
+    }
+  }
+  
+  .portfolio-table {
+    font-size: 0.75rem;
+    
+    th,
+    td {
+      padding: 0.5rem;
+    }
+  }
+  
+  .asset-badge .asset-icon {
+    width: 2rem;
+    height: 2rem;
+    font-size: 0.75rem;
+  }
+}
+
+// Efectos hover
+.portfolio-row:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+  transition: background-color 0.2s ease;
+}
+
+.metric-panel:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transition: background-color 0.2s ease;
+}
+
+.chart-panel:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+// Estilos para el estado del mercado
+.market-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  
+  .status-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    
+    &.open {
+      background-color: #22c55e;
+      animation: pulse 2s infinite;
+    }
+    
+    &.closed {
+      background-color: #ef4444;
+    }
+    
+    &.pre-market {
+      background-color: #f59e0b;
+    }
+  }
+  
+  .status-text {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+// Estilos para las gráficas
+.chart-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  
+  canvas {
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
+
+// Estilos para la distribución de activos
+.asset-allocation {
+  .allocation-chart {
+    max-height: 400px;
+    margin: 0 auto;
+  }
+  
+  .allocation-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      color: white;
+      
+      .legend-color {
+        width: 1rem;
+        height: 1rem;
+        border-radius: 0.25rem;
+      }
+    }
+  }
+}
+
+// Estilos para los indicadores de rendimiento
+.performance-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+  
+  .performance-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    padding: 2rem;
+    text-align: center;
+    
+    .performance-title {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 1rem;
+    }
+    
+    .performance-value {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 0.5rem;
+    }
+    
+    .performance-change {
+      font-size: 1.125rem;
+      font-weight: 600;
+      
+      &.positive {
+        color: #22c55e;
+      }
+      
+      &.negative {
+        color: #ef4444;
+      }
+    }
+  }
+}
+
+// Gradientes para las tarjetas
+.metric-gradient {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+}
+
+// Efectos de profundidad
+.depth-effect {
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    0 1px 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+// Transiciones suaves
+.smooth-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// Estilos para el flujo de caja
+.cash-flow-chart {
+  .chart-container {
+    position: relative;
+    
+    .chart-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}

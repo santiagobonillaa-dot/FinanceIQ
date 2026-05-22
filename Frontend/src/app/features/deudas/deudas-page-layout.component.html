@@ -1,0 +1,196 @@
+<app-main-layout pageTitle="Deudas">
+  <div class="space-y-8">
+    <div class="grid gap-6 lg:grid-cols-4 mb-8">
+      <div class="glass-panel p-8">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="panel-subtitle">Deuda Total</h3>
+          <img src="assets/icons/page-content/deudas/deuda-total.svg" class="w-6 h-6" alt="Deuda" />
+        </div>
+        <p class="text-4xl font-bold text-white">{{ summaryMetrics.totalBalance | currency:'COP':'symbol-narrow' }}</p>
+        <p class="text-lg text-red-400 mt-2">{{ summaryMetrics.activeDebts }} cuentas activas</p>
+      </div>
+      <div class="glass-panel p-8">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="panel-subtitle">Pago Mensual Total</h3>
+          <img src="assets/icons/page-content/deudas/pago-mensual-total.svg" class="w-6 h-6" alt="Pago" />
+        </div>
+        <p class="text-4xl font-bold text-white">{{ summaryMetrics.totalMonthlyPayment | currency:'COP':'symbol-narrow' }}</p>
+        <p class="text-lg text-white/60 mt-2">Comprometido mensual</p>
+      </div>
+      <div class="glass-panel p-8">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="panel-subtitle">Tasa Promedio</h3>
+          <img src="assets/icons/page-content/deudas/tasa-promedio.svg" class="w-6 h-6" alt="Tasa" />
+        </div>
+        <p class="text-4xl font-bold text-white">{{ summaryMetrics.averageRate | number:'1.0-2' }}%</p>
+        <p class="text-lg text-white/60 mt-2">Interés ponderado</p>
+      </div>
+      <div class="glass-panel p-8">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="panel-subtitle">Intereses Pagados</h3>
+          <img src="assets/icons/page-content/deudas/intereses-pagados.svg" class="w-6 h-6" alt="Intereses" />
+        </div>
+        <p class="text-4xl font-bold text-white">{{ summaryMetrics.totalPaid | currency:'COP':'symbol-narrow' }}</p>
+        <p class="text-lg text-white/60 mt-2">Total pagado estimado</p>
+      </div>
+    </div>
+
+    <div class="glass-panel p-6">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h2 class="panel-title-main">Simulador de Estrategias de Pago</h2>
+          <p class="panel-subtitle">Comparación de métodos: Avalanche vs Snowball vs Mínimo</p>
+        </div>
+        <button
+          class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          (click)="simulateStrategies()"
+          [disabled]="simulateDisabled">
+          <img src="assets/icons/page-content/deudas/simular.svg" class="w-4 h-4" alt="Simular" />
+          {{ chartReady ? 'Simulación lista' : 'Simular' }}
+        </button>
+      </div>
+      <div class="flex justify-center">
+        <div class="chart-content relative" style="height: 400px; width: 100%;">
+          <ng-container *ngIf="chartReady; else pendingSimulation">
+            <app-chart 
+              type="line" 
+              [data]="estrategiasChart.data" 
+              [options]="estrategiasChart.options">
+            </app-chart>
+          </ng-container>
+          <ng-template #pendingSimulation>
+            <div class="chart-overlay">
+              <div class="text-center space-y-4">
+                <p class="text-white/70">Presiona "Simular" para comparar tus estrategias de pago.</p>
+                <p class="text-sm text-white/50">Ingresa tus deudas y luego ejecuta la simulación.</p>
+              </div>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel: Registro de Deudas -->
+    <div class="glass-panel p-6">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h2 class="panel-title-main">Registro de Deudas</h2>
+          <p class="panel-subtitle">Todas las deudas activas y su estado</p>
+        </div>
+        <button class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors" (click)="openDebtModal('create')">
+          + Agregar Deuda
+        </button>
+      </div>
+      
+      <div class="space-y-6" *ngIf="debts.length; else noDebts">
+        <div class="glass-panel p-12 subpanel-light" *ngFor="let debt of debts">
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-4">
+              <div class="w-14 h-14 rounded-xl flex items-center justify-center" [ngClass]="debt.iconBg">
+                <img src="assets/icons/page-content/deudas/deuda-total.svg" class="w-7 h-7" alt="Deuda" />
+              </div>
+              <div>
+                <h3 class="text-2xl font-bold text-white">{{ debt.name }}</h3>
+                <p class="text-sm" [ngClass]="debt.priorityColor">{{ debt.priorityLabel }}</p>
+              </div>
+            </div>
+            <div class="flex gap-2">
+              <button class="text-blue-400 hover:text-blue-300" (click)="openDebtModal('edit', debt.id)">
+                <img src="assets/icons/page-content/deudas/editar-deuda.svg" class="w-5 h-5" alt="Editar" />
+              </button>
+              <button class="text-red-400 hover:text-red-300" (click)="deleteDebt(debt.id)">
+                <img src="assets/icons/page-content/deudas/eliminar-deuda.svg" class="w-5 h-5" alt="Eliminar" />
+              </button>
+            </div>
+          </div>
+          
+          <div class="grid grid-cols-4 gap-4 text-center">
+            <div>
+              <p class="text-sm text-white/60 mb-1">Restante</p>
+              <p class="text-xl font-bold text-white">{{ debt.balance | currency:'COP':'symbol-narrow' }}</p>
+            </div>
+            <div>
+              <p class="text-sm text-white/60 mb-1">Cuota Mensual</p>
+              <p class="text-xl font-bold text-white">{{ debt.monthlyPayment | currency:'COP':'symbol-narrow' }}</p>
+            </div>
+            <div>
+              <p class="text-sm text-white/60 mb-1">Tasa</p>
+              <p class="text-xl font-bold text-red-400">{{ debt.rate }}%</p>
+            </div>
+            <div>
+              <p class="text-sm text-white/60 mb-1">Vencimiento</p>
+              <p class="text-xl font-bold text-white">{{ debt.dueDate | date:'dd/MM/yyyy' }}</p>
+            </div>
+          </div>
+          
+          <div class="mt-4">
+            <div class="w-full bg-gray-700 rounded-full h-4">
+              <div class="bg-gradient-to-r from-red-500 to-orange-500 h-4 rounded-full" [style.width.%]="debt.progress"></div>
+            </div>
+            <p class="text-sm text-white/60 mt-2">{{ debt.progress }}% pagado</p>
+          </div>
+        </div>
+      </div>
+      <ng-template #noDebts>
+        <p class="text-white/60 text-sm">No tienes deudas registradas. Usa el botón "Agregar Deuda" para comenzar.</p>
+      </ng-template>
+    </div>
+  </div>
+
+  <!-- Modal de creación/edición -->
+  <div class="modal-overlay" *ngIf="modalOpen">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="text-xl font-semibold text-white">
+          {{ modalMode === 'create' ? 'Agregar Deuda' : 'Editar Deuda' }}
+        </h3>
+        <button class="text-white/60 hover:text-white" (click)="closeModal()">✕</button>
+      </div>
+      <form [formGroup]="debtForm" (ngSubmit)="saveDebt()" class="space-y-4">
+        <label class="form-field">
+          <span>Nombre</span>
+          <input type="text" formControlName="name" placeholder="Ej. Tarjeta Banco XYZ" />
+        </label>
+        <label class="form-field">
+          <span>Saldo</span>
+          <input type="number" formControlName="balance" min="0" step="1000" />
+        </label>
+        <label class="form-field">
+          <span>Cuota mensual</span>
+          <input type="number" formControlName="monthlyPayment" min="0" step="1000" />
+        </label>
+        <label class="form-field">
+          <span>Monto pagado</span>
+          <input type="number" formControlName="amountPaid" min="0" [max]="debtForm.get('balance')?.value || 0" step="1000" />
+          <small class="text-red-400" *ngIf="debtForm.get('amountPaid')?.hasError('exceedsBalance')">
+            No puede exceder el saldo.
+          </small>
+          <small class="text-red-400" *ngIf="debtForm.get('amountPaid')?.hasError('negative')">
+            No puede ser negativo.
+          </small>
+        </label>
+        <label class="form-field">
+          <span>Prioridad</span>
+          <select formControlName="priority">
+            <option *ngFor="let option of priorityOptions" [value]="option.value">
+              {{ option.label }}
+            </option>
+          </select>
+        </label>
+        <label class="form-field">
+          <span>Fecha de vencimiento</span>
+          <input type="date" formControlName="dueDate" [attr.min]="minDueDateISO" />
+          <small class="text-red-400" *ngIf="debtForm.get('dueDate')?.hasError('pastDate') && debtForm.get('dueDate')?.touched">
+            Debe ser hoy o una fecha futura.
+          </small>
+        </label>
+        <div class="modal-actions">
+          <button type="button" class="btn-outline" (click)="closeModal()">Cancelar</button>
+          <button type="submit" class="btn-primary">
+            {{ modalMode === 'create' ? 'Agregar' : 'Guardar cambios' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</app-main-layout>

@@ -1,0 +1,236 @@
+<app-main-layout pageTitle="Presupuesto Inteligente">
+  <div class="space-y-8">
+    <!-- Panel Motor de Inteligencia Presupuestaria -->
+    <div class="glass-panel p-8 min-h-[700px]">
+      <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center gap-4">
+          <div class="w-16 h-16 rounded-xl bg-gradient-to-br from-[#0066ff] to-[#00d897] flex items-center justify-center">
+            <img src="assets/icons/page-content/presupuesto-inteligente/logoIA.svg" class="w-8 h-8" alt="ia" />
+          </div>
+          <div>
+            <h2 class="panel-title-main">Motor de Inteligencia Presupuestaria</h2>
+            <p class="panel-subtitle">Análisis predictivo en tiempo real</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 rounded-full bg-green-400"></div>
+          <span class="presupuesto-system-status">Sistema Activo</span>
+        </div>
+      </div>
+
+      <!-- Botones de tiempo (arriba) -->
+      <div class="flex flex-wrap justify-center gap-2 mb-8">
+        <button 
+          class="presupuesto-button rounded-lg transition-colors whitespace-nowrap"
+          [class]="selectedPeriod === 'daily' ? 'text-white bg-blue-500' : 'text-gray-400 hover:text-white hover:bg-white/10'"
+          (click)="selectPeriod('daily')">Diario</button>
+        <button 
+          class="presupuesto-button rounded-lg transition-colors whitespace-nowrap"
+          [class]="selectedPeriod === 'weekly' ? 'text-white bg-blue-500' : 'text-gray-400 hover:text-white hover:bg-white/10'"
+          (click)="selectPeriod('weekly')">Semanal</button>
+        <button 
+          class="presupuesto-button rounded-lg transition-colors whitespace-nowrap"
+          [class]="selectedPeriod === 'biweekly' ? 'text-white bg-blue-500' : 'text-gray-400 hover:text-white hover:bg-white/10'"
+          (click)="selectPeriod('biweekly')">Quincenal</button>
+        <button 
+          class="presupuesto-button rounded-lg transition-colors whitespace-nowrap"
+          [class]="selectedPeriod === 'monthly' ? 'text-white bg-blue-500' : 'text-gray-400 hover:text-white hover:bg-white/10'"
+          (click)="selectPeriod('monthly')">Mensual</button>
+      </div>
+
+      <!-- Contenido central (debajo de botones) -->
+      <div class="text-center">
+        <!-- Monto y subtítulo -->
+        <p class="presupuesto-amount-label mb-6">Poder de Gasto Seguro - Hoy</p>
+        <p class="presupuesto-amount mb-2">$2,340</p>
+        
+        <!-- Barra de carga en arco azul -->
+        <div class="relative w-64 h-40 mx-auto mb-8 mt-12">
+          <svg class="w-64 h-40" viewBox="0 0 128 80">
+            <!-- Arco de fondo (silueta sin color) -->
+            <path d="M 24 48 A 40 40 0 0 1 104 48" 
+                  stroke="rgba(255,255,255,0.1)" 
+                  stroke-width="12" 
+                  fill="none" 
+                  stroke-linecap="round"/>
+            
+            <!-- Arco azul -->
+            <defs>
+              <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#0066ff;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#00d897;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            
+            <!-- Arco principal con gradiente azul - más redondo -->
+            <path d="M 24 48 A 40 40 0 0 1 104 48" 
+                  stroke="url(#blueGradient)" 
+                  stroke-width="12" 
+                  fill="none" 
+                  stroke-linecap="round"
+                  style="stroke-dasharray: 126; stroke-dashoffset: 98;"/>
+          </svg>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="text-center">
+              <div class="arc-percentage">22%</div>
+              <div class="arc-available">Disponible</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estado saludable -->
+        <div class="flex items-center justify-center gap-2 mb-12">
+          <div class="w-5 h-5 rounded-full bg-green-500 flex items-center justify-center">
+            <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <span class="presupuesto-status text-green-400">Estado Saludable</span>
+        </div>
+
+        <!-- 3 subpáneles dentro del panel principal -->
+        <div class="grid gap-6 lg:grid-cols-3">
+          <div class="p-6 rounded-xl border border-white/10 text-left">
+            <div class="mb-4">
+              <p class="presupuesto-subpanel-title">Ingresos Proyectados</p>
+            </div>
+            <p class="presupuesto-subpanel-value text-green-400">$450</p>
+          </div>
+          <div class="p-6 rounded-xl border border-white/10 text-left">
+            <div class="mb-4">
+              <p class="presupuesto-subpanel-title">Gastos Comprometidos</p>
+            </div>
+            <p class="presupuesto-subpanel-value text-red-400">$1,890</p>
+          </div>
+          <div class="p-6 rounded-xl border border-white/10 text-left">
+            <div class="mb-4">
+              <p class="presupuesto-subpanel-title">Margen Disponible</p>
+            </div>
+            <p class="presupuesto-subpanel-value text-blue-400">$120</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2 paneles horizontales debajo del inicial -->
+    <div class="grid gap-6 lg:grid-cols-2">
+      <!-- Panel 1: Análisis de Tendencias -->
+      <div class="glass-panel p-6">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background-color: rgb(0, 200, 255 / 0.6) !important;">
+              <img src="assets/icons/page-content/presupuesto-inteligente/proximos-compromisos.svg" class="w-4 h-4" alt="próximos-compromisos" />
+            </div>
+            <h3 class="text-2xl font-bold text-white">Próximos Compromisos</h3>
+          </div>
+        </div>
+        <div class="space-y-4">
+          <div class="flex items-center justify-between p-4 rounded-lg bg-white/5">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-red-500/20 flex items-center justify-center">
+                <img src="assets/icons/page-content/presupuesto-inteligente/proximos-compromisos.svg" class="w-4 h-4" alt="próximos-compromisos" />
+              </div>
+              <div>
+                <p class="text-xl font-medium text-white">Arriendo</p>
+                <p class="text-base text-gray-400">01 Mar</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <p class="text-2xl font-bold text-orange-400">$2,100</p>
+              <p class="text-base text-orange-300">Deuda</p>
+            </div>
+          </div>
+          <div class="flex items-center justify-between p-4 rounded-lg bg-white/5">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-red-500/20 flex items-center justify-center">
+                <img src="assets/icons/page-content/presupuesto-inteligente/proximos-compromisos.svg" class="w-4 h-4" alt="próximos-compromisos" />
+              </div>
+              <div>
+                <p class="text-xl font-medium text-white">Tarjeta Visa</p>
+                <p class="text-base text-gray-400">28 Feb</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <p class="text-2xl font-bold text-green-400">$850</p>
+              <p class="text-base text-green-300">Fijo</p>
+            </div>
+          </div>
+          <div class="flex items-center justify-between p-4 rounded-lg bg-white/5">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-red-500/20 flex items-center justify-center">
+                <img src="assets/icons/page-content/presupuesto-inteligente/proximos-compromisos.svg" class="w-4 h-4" alt="próximos-compromisos" />
+              </div>
+              <div>
+                <p class="text-xl font-medium text-white">Servicios Públicos</p>
+                <p class="text-base text-gray-400">10 Mar</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <p class="text-2xl font-bold text-blue-400">$450</p>
+              <p class="text-base text-blue-300">Tendencia estable</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 2: Recomendaciones IA -->
+      <div class="glass-panel p-6">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center">
+              <img src="assets/icons/page-content/presupuesto-inteligente/insights-inteligentes.svg" class="w-4 h-4" alt="insights-inteligentes" />
+            </div>
+            <h3 class="text-2xl font-bold text-white">Insights Inteligentes</h3>
+          </div>
+        </div>
+        <div class="space-y-3">
+          <div class="p-3 rounded-lg bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20">
+            <div class="flex items-start gap-3">
+              <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0 mt-1">
+                <span class="text-xs text-white font-bold">1</span>
+              </div>
+              <div>
+                <p class="text-lg font-medium text-white">Flujo Positivo Detectado</p>
+                <p class="text-base text-gray-400">Tus ingresos superan tus gastos fijos en $5,400/mes. Excelente gestión.</p>
+                <div class="flex items-center gap-2 mt-2">
+                  <span class="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded">Alta prioridad</span>
+                  <span class="text-xs text-green-400">Fácil implementación</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="p-3 rounded-lg bg-gradient-to-r from-green-500/10 to-blue-500/10 border border-green-500/20">
+            <div class="flex items-start gap-3">
+              <div class="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center flex-shrink-0 mt-1">
+                <span class="text-xs text-white font-bold">2</span>
+              </div>
+              <div>
+                <p class="text-lg font-medium text-white">Gasto Variable Elevado</p>
+                <p class="text-base text-gray-400">Entretenimiento: +35% vs promedio histórico. Considera ajustar.</p>
+                <div class="flex items-center gap-2 mt-2">
+                  <span class="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded">Media prioridad</span>
+                  <span class="text-xs text-yellow-400">Requiere análisis</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="p-3 rounded-lg bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border border-yellow-500/20">
+            <div class="flex items-start gap-3">
+              <div class="w-6 h-6 rounded-full bg-yellow-500 flex items-center justify-center flex-shrink-0 mt-1">
+                <span class="text-xs text-white font-bold">3</span>
+              </div>
+              <div>
+                <p class="text-lg font-medium text-white">Oportunidad de Inversión</p>
+                <p class="text-base text-gray-400">Tienes liquidez disponible. Considera diversificar portafolio.</p>
+                <div class="flex items-center gap-2 mt-2">
+                  <span class="text-xs bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded">Baja prioridad</span>
+                  <span class="text-xs text-orange-400">Largo plazo</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-main-layout>

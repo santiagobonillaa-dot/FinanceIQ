@@ -1,0 +1,223 @@
+// Estilos para el componente Metric Card (Molécula)
+
+.metric-card {
+  // Transiciones suaves
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  // Efectos hover
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+  
+  // Estado focus para accesibilidad
+  &:focus {
+    outline: 2px solid rgba(0, 102, 255, 0.5);
+    outline-offset: 2px;
+  }
+}
+
+// Contenedor del icono
+.metric-card__icon {
+  // Transiciones para el icono
+  transition: all 0.2s ease;
+  
+  // Efectos hover en el icono
+  &:hover {
+    transform: scale(1.1);
+    background: linear-gradient(135deg, rgba(0, 102, 255, 0.3), rgba(0, 216, 151, 0.3));
+  }
+}
+
+// Indicador de tendencia
+.metric-card__trend {
+  transition: all 0.2s ease;
+  
+  // Variante positiva (crecimiento)
+  &--up {
+    color: #22c55e;
+    font-weight: 600;
+    
+    &::before {
+      content: 'arrow_upward';
+      font-family: 'Material Icons';
+      margin-right: 0.25rem;
+      font-size: 1rem;
+    }
+  }
+  
+  // Variante negativa (decremento)
+  &--down {
+    color: #ef4444;
+    font-weight: 600;
+    
+    &::before {
+      content: 'arrow_downward';
+      font-family: 'Material Icons';
+      margin-right: 0.25rem;
+      font-size: 1rem;
+    }
+  }
+  
+  // Variante neutral (sin cambios)
+  &--neutral {
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 500;
+    
+    &::before {
+      content: 'remove';
+      font-family: 'Material Icons';
+      margin-right: 0.25rem;
+      font-size: 1rem;
+    }
+  }
+}
+
+// Estados especiales
+.metric-card--loading {
+  opacity: 0.7;
+  pointer-events: none;
+  
+  .metric-card__icon {
+    animation: iconSpin 1s linear infinite;
+  }
+}
+
+.metric-card--error {
+  border-color: rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.05);
+  
+  .metric-card__trend {
+    color: #ef4444;
+  }
+}
+
+.metric-card--success {
+  border-color: rgba(34, 197, 94, 0.3);
+  background: rgba(34, 197, 94, 0.05);
+}
+
+.metric-card--highlight {
+  border-color: rgba(0, 102, 255, 0.3);
+  background: linear-gradient(135deg, rgba(0, 102, 255, 0.05), rgba(0, 216, 151, 0.05));
+}
+
+// Animaciones
+@keyframes iconSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes cardPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+.metric-card--pulse {
+  animation: cardPulse 2s ease-in-out infinite;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .metric-card {
+    padding: 1rem;
+    
+    h3 {
+      font-size: 1.5rem;
+    }
+    
+    .metric-card__icon {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .metric-card {
+    padding: 0.75rem;
+    
+    h3 {
+      font-size: 1.25rem;
+    }
+    
+    .metric-card__icon {
+      width: 2rem;
+      height: 2rem;
+      
+      img {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+  }
+}
+
+// Tema oscuro mejorado
+@media (prefers-color-scheme: dark) {
+  .metric-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.08);
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+  }
+}
+
+// Estados de carga de datos
+.metric-card--skeleton {
+  .metric-card__trend {
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.1) 25%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.1) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+    border-radius: 0.25rem;
+    height: 1rem;
+    width: 60%;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+// Variante compacta
+.metric-card--compact {
+  padding: 1rem;
+  
+  h3 {
+    font-size: 1.5rem;
+  }
+  
+  .metric-card__icon {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}
+
+// Variante destacada
+.metric-card--featured {
+  border: 2px solid rgba(0, 102, 255, 0.3);
+  background: linear-gradient(135deg, rgba(0, 102, 255, 0.05), rgba(0, 216, 151, 0.05));
+  
+  &:hover {
+    border-color: rgba(0, 102, 255, 0.5);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 102, 255, 0.2);
+  }
+}

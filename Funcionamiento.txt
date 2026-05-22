@@ -1,0 +1,27 @@
+Para probar la base de datos en MongoDB:
+
+# Abrir terminal y ejecutar:
+mongosh financeiq
+
+# Comandos básicos:
+show collections                    # Ver colecciones
+db.users.find().pretty()           # Ver usuarios
+db.incomes.find().pretty()          # Ver ingresos
+db.expenses.find().pretty()         # Ver gastos
+db.debts.find().pretty()            # Ver deudas# Abrir terminal y ejecutar:
+mongosh financeiq
+
+# Comandos básicos:
+show collections                    # Ver colecciones
+db.users.find().pretty()           # Ver usuarios
+db.incomes.find().pretty()          # Ver ingresos
+db.expenses.find().pretty()         # Ver gastos
+db.debts.find().pretty()            # Ver deudas
+
+Para levantar el frontend:
+cd Frontend
+npm run start
+
+Para levantar el backend:
+cd Backend
+npm run start

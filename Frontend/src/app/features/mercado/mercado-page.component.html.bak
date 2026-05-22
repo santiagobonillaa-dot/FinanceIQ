@@ -1,0 +1,180 @@
+<app-main-layout pageTitle="Mercado">
+  <div class="space-y-8">
+    <!-- Panel Market Data Terminal -->
+    <div class="glass-panel p-6">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h2 class="panel-title-main">Market Data Terminal</h2>
+          <p class="text-lg text-white/60">Datos de mercado en near real-time</p>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <div class="w-2 h-2 rounded-full bg-green-400"></div>
+            <span class="text-sm text-white/60">Mercado Abierto</span>
+          </div>
+          <label class="relative inline-flex items-center cursor-pointer">
+            <input type="checkbox" class="sr-only peer" (change)="toggleCurrency()">
+            <div class="w-11 h-6 bg-gray-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+            <span class="ml-3 text-sm font-medium text-white">{{ isUSD ? 'USD' : 'COP' }}</span>
+          </label>
+        </div>
+      </div>
+      
+      <form [formGroup]="searchForm" class="flex items-center gap-4">
+        <div class="flex-1 relative">
+          <img src="assets/icons/page-content/mercado/buscar.svg" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-white/60" alt="Buscar" />
+          <input 
+            type="text" 
+            formControlName="search"
+            (input)="onSearchChange()"
+            placeholder="Buscar activo (ticker, nombre)..." 
+            class="w-full pl-10 pr-4 py-3 bg-gray-800/50 border border-white/10 rounded-lg text-white placeholder-white/40 focus:outline-none focus:border-blue-500/50 focus:bg-gray-800/70 transition-all"
+          >
+        </div>
+      </form>
+    </div>
+
+    <!-- Panel copiado del dashboard (BTC-USD) -->
+    <div class="chart-panel min-h-[700px]">
+      <div class="chart-panel-header relative">
+        <div class="flex items-center justify-between" *ngIf="selectedAsset">
+          <div>
+            <div class="flex items-center gap-3">
+              <p class="panel-title">{{ selectedAsset.ticker }}</p>
+              <p class="panel-subtitle">{{ selectedAsset.name }}</p>
+              <button class="star-favorite" (click)="toggleWatchlist(selectedAsset)">
+                <svg class="w-5 h-5" [class.stroke-yellow-400]="isInWatchlist(selectedAsset.ticker)" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.196-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                </svg>
+              </button>
+            </div>
+            <p class="text-5xl font-bold text-white">{{ isUSD ? '$' + (selectedAsset.price / 1000).toFixed(2) + 'K' : formatCurrency(selectedAsset.price) }}</p>
+          </div>
+          <div class="text-right">
+            <p class="text-xl" [ngClass]="getValueClass(selectedAsset.variation)">
+              {{ selectedAsset.variation > 0 ? '+' : '' }}{{ selectedAsset.variation.toFixed(1) }}%
+            </p>
+          </div>
+        </div>
+        <!-- Información de mercado en esquina superior derecha -->
+        <div class="absolute top-0 right-0">
+          <div class="grid grid-cols-2 gap-x-6 gap-y-2 text-right">
+            <p class="mercado-info-label">Máximo 24h</p>
+            <p class="mercado-info-label">Mínimo 24h</p>
+            <p class="mercado-info-value">$69450.00</p>
+            <p class="mercado-info-value">$66180.00</p>
+            <p class="mercado-info-label">Volumen 24h</p>
+            <p class="mercado-info-label">Cap. Mercado</p>
+            <p class="mercado-info-value">28.5B</p>
+            <p class="mercado-info-value">1.32T</p>
+          </div>
+        </div>
+      </div>
+      <div class="chart-content-extra-large mt-8">
+        <app-chart 
+          type="line" 
+          [data]="chartData" 
+          [options]="btcChartOptions">
+        </app-chart>
+      </div>
+      
+      <!-- Opciones de tiempo -->
+      <div class="flex justify-center gap-3 mt-20">
+        <button 
+          *ngFor="let period of timePeriods"
+          class="px-4 py-2 text-base rounded-lg transition-all"
+          [class.text-white]="period.active"
+          [class.text-white/60]="!period.active"
+          [class.bg-blue-500/20]="period.active"
+          [class.border]="period.active"
+          [class.border-blue-500/50]="period.active"
+          [class.hover:text-white]="!period.active"
+          [class.hover:bg-white/10]="!period.active"
+          (click)="selectPeriod(period)">
+          {{ period.label }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Panel copiado de Portafolio (Resumen de Mercado) -->
+    <div class="glass-panel p-6">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h3 class="text-2xl font-bold text-white">Resumen de Mercado</h3>
+          <p class="text-lg text-white/60">Posiciones activas</p>
+        </div>
+        <button 
+          class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors flex items-center gap-2"
+          (click)="addToWatchlist()"
+          [disabled]="!selectedAsset || isInWatchlist(selectedAsset?.ticker)">
+          <span>{{ isInWatchlist(selectedAsset?.ticker) ? 'En Watchlist' : '+ Agregar a Watchlist' }}</span>
+        </button>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead>
+            <tr class="border-b border-white/10">
+              <th class="text-left text-white/60 text-sm font-medium py-3 px-2">Activo</th>
+              <th class="text-left text-white/60 text-sm font-medium py-3 px-2">Precio Actual</th>
+              <th class="text-left text-white/60 text-sm font-medium py-3 px-2">Variación %</th>
+              <th class="text-left text-white/60 text-sm font-medium py-3 px-2">P&L</th>
+              <th class="text-left text-white/60 text-sm font-medium py-3 px-2">Valor Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr 
+              *ngFor="let asset of filteredMarketAssets" 
+              class="border-b border-white/5"
+              [class.bg-white/5]="selectedAsset?.ticker === asset.ticker"
+              (click)="selectAsset(asset)">
+              <td class="text-white text-sm py-3 px-2">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-full flex items-center justify-center" [ngClass]="asset.badgeClass">
+                    <span class="font-semibold text-sm">{{ asset.ticker.substring(0, 2).toUpperCase() }}</span>
+                  </div>
+                  <div class="flex flex-col">
+                    <span class="text-white">{{ asset.ticker }}</span>
+                    <span class="text-xs text-white/60" *ngIf="asset.inPortfolio">En portafolio</span>
+                  </div>
+                </div>
+              </td>
+              <td class="text-white text-sm py-3 px-2">{{ isUSD ? '$' + (asset.price / 1000).toFixed(2) + 'K' : formatCurrency(asset.price) }}</td>
+              <td [ngClass]="getValueClass(asset.variation)" class="text-sm py-3 px-2">
+                {{ asset.variation > 0 ? '+' : '' }}{{ asset.variation.toFixed(1) }}%
+              </td>
+              <td [ngClass]="getValueClass(asset.pnl)" class="text-sm py-3 px-2">
+                {{ asset.pnl > 0 ? '+' : '' }}{{ formatCurrency(asset.pnl) }}
+              </td>
+              <td class="text-white text-sm py-3 px-2">{{ formatCurrency(asset.total) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 3 subpáneles sin color de fondo -->
+      <div class="grid gap-6 lg:grid-cols-3 mt-6">
+        <div class="p-8 rounded-xl border border-white/10">
+          <div class="flex items-center justify-between mb-4">
+            <p class="text-sm text-white/60">Rendimiento del día</p>
+          </div>
+          <p class="text-4xl font-bold text-white">{{ formatCurrency(getMarketSummary().dailyGain) }}</p>
+          <p class="text-lg text-green-400 mt-2">+{{ getDailyGainPercentage() }}%</p>
+        </div>
+        <div class="p-8 rounded-xl border border-white/10">
+          <div class="flex items-center justify-between mb-4">
+            <p class="text-sm text-white/60">Ganancias semana</p>
+          </div>
+          <p class="text-4xl font-bold text-white">{{ formatCurrency(getMarketSummary().weeklyGain) }}</p>
+          <p class="text-lg text-green-400 mt-2">+{{ getWeeklyGainPercentage() }}%</p>
+        </div>
+        <div class="p-8 rounded-xl border border-white/10">
+          <div class="flex items-center justify-between mb-4">
+            <p class="text-sm text-white/60">Rendimiento mensual</p>
+          </div>
+          <p class="text-4xl font-bold text-white">{{ formatCurrency(getMarketSummary().monthlyGain) }}</p>
+          <p class="text-lg text-green-400 mt-2">+{{ getMonthlyGainPercentage() }}%</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-main-layout>

@@ -1,0 +1,489 @@
+// Estilos específicos para el componente de gastos
+.chart-content {
+  height: 400px;
+  width: 100%;
+}
+
+// Estilos para la tabla de gastos
+.expenses-table {
+  width: 100%;
+  border-collapse: collapse;
+  
+  th,
+  td {
+    text-align: left;
+    padding: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  th {
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+  
+  tr:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+}
+
+// Estilos para los badges de categorías
+.category-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  
+  &.housing {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+  }
+  
+  &.food {
+    background-color: rgba(251, 146, 60, 0.2);
+    color: #fb923c;
+  }
+  
+  &.transport {
+    background-color: rgba(245, 158, 11, 0.2);
+    color: #f59e0b;
+  }
+  
+  &.entertainment {
+    background-color: rgba(168, 85, 247, 0.2);
+    color: #a855f7;
+  }
+  
+  &.services {
+    background-color: rgba(59, 130, 246, 0.2);
+    color: #3b82f6;
+  }
+  
+  &.utilities {
+    background-color: rgba(6, 182, 212, 0.2);
+    color: #06b6d4;
+  }
+}
+
+// Estilos para los tipos de gastos
+.expense-type {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  
+  &.fixed {
+    background-color: rgba(59, 130, 246, 0.2);
+    color: #3b82f6;
+  }
+  
+  &.variable {
+    background-color: rgba(156, 163, 175, 0.2);
+    color: #9ca3af;
+  }
+}
+
+// Estilos para los items de gastos
+.expense-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  
+  .expense-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(239, 68, 68, 0.2);
+  }
+  
+  .expense-name {
+    font-weight: 500;
+    color: white;
+  }
+}
+
+// Estilos para las acciones
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+  
+  .action-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    &.edit {
+      color: #3b82f6;
+      
+      &:hover {
+        color: #2563eb;
+      }
+    }
+    
+    &.delete {
+      color: #ef4444;
+      
+      &:hover {
+        color: #dc2626;
+      }
+    }
+  }
+}
+
+// Estilos para los paneles de métricas
+.metric-panel {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  padding: 2rem;
+  
+  .metric-label {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 0.5rem;
+  }
+  
+  .metric-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.5rem;
+  }
+  
+  .metric-change {
+    font-size: 1.125rem;
+    font-weight: 600;
+    
+    &.positive {
+      color: #22c55e;
+    }
+    
+    &.negative {
+      color: #ef4444;
+    }
+    
+    &.neutral {
+      color: rgba(255, 255, 255, 0.6);
+    }
+  }
+}
+
+// Animaciones
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.metric-card {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.chart-panel {
+  animation: fadeIn 0.8s ease-out 0.2s;
+}
+
+.table-panel {
+  animation: fadeIn 0.8s ease-out 0.4s;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .chart-content {
+    height: 300px;
+  }
+  
+  .metric-panel {
+    padding: 1.5rem;
+    
+    .metric-value {
+      font-size: 2rem;
+    }
+  }
+  
+  .expenses-table {
+    font-size: 0.75rem;
+    
+    th,
+    td {
+      padding: 0.5rem;
+    }
+  }
+  
+  .expense-item .expense-icon {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+
+// Efectos hover
+.expense-row:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+  transition: background-color 0.2s ease;
+}
+
+.metric-panel:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transition: background-color 0.2s ease;
+}
+
+.chart-panel:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+// Estilos para los gráficos
+.chart-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  
+  canvas {
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
+
+// Estilos para la distribución de gastos
+.expense-distribution {
+  .distribution-chart {
+    max-height: 350px;
+    margin: 0 auto;
+  }
+  
+  .distribution-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      color: white;
+      
+      .legend-color {
+        width: 1rem;
+        height: 1rem;
+        border-radius: 0.25rem;
+      }
+    }
+  }
+}
+
+// Estilos para los indicadores de tendencia
+.trend-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  
+  &.up {
+    color: #ef4444;
+  }
+  
+  &.down {
+    color: #22c55e;
+  }
+  
+  &.stable {
+    color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+// Estilos para el botón de agregar gasto
+.add-expense-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  }
+}
+
+// Gradientes para las tarjetas
+.metric-gradient {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+}
+
+// Efectos de profundidad
+.depth-effect {
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    0 1px 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+// Transiciones suaves
+.smooth-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// Estilos para la tabla responsive
+.table-responsive {
+  overflow-x: auto;
+  
+  .expenses-table {
+    min-width: 800px;
+  }
+}
+
+// Estilos para los filtros
+.expense-filters {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  
+  .filter-button {
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    
+    &.active {
+      background: rgba(59, 130, 246, 0.2);
+      color: #3b82f6;
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+  }
+}
+
+// Estilos para el resumen de gastos
+.expense-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  
+  .summary-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    text-align: center;
+    
+    .summary-title {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 0.5rem;
+    }
+    
+    .summary-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 0.25rem;
+    }
+    
+    .summary-change {
+      font-size: 1rem;
+      font-weight: 500;
+      
+      &.increase {
+        color: #ef4444;
+      }
+      
+      &.decrease {
+        color: #22c55e;
+      }
+      
+      &.neutral {
+        color: rgba(255, 255, 255, 0.6);
+      }
+    }
+  }
+}
+
+// Estilos para las categorías de gastos
+.category-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+  
+  .category-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    
+    .category-icon {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+    
+    .category-info {
+      flex: 1;
+      
+      .category-name {
+        font-weight: 500;
+        color: white;
+        margin-bottom: 0.25rem;
+      }
+      
+      .category-amount {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: white;
+      }
+      
+      .category-percentage {
+        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.6);
+      }
+    }
+  }
+}

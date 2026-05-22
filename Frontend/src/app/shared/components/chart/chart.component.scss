@@ -1,0 +1,135 @@
+// Estilos para el componente Chart (Componente Utilitario)
+
+.chart-canvas {
+  // Estilos base para el canvas
+  display: block;
+  max-width: 100%;
+  height: auto;
+  
+  // Transiciones suaves
+  transition: opacity 0.3s ease;
+  
+  // Estados de carga
+  &--loading {
+    opacity: 0.6;
+  }
+  
+  // Estados de error
+  &--error {
+    opacity: 0.3;
+    filter: grayscale(100%);
+  }
+  
+  // Estados de éxito
+  &--loaded {
+    opacity: 1;
+  }
+}
+
+// Contenedor del gráfico
+.chart-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  
+  // Overlay para estados de carga
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-weight: 500;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    
+    &--visible {
+      opacity: 1;
+    }
+  }
+  
+  // Indicador de carga
+  &__spinner {
+    width: 2rem;
+    height: 2rem;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
+// Animaciones
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+// Estados responsive
+@media (max-width: 768px) {
+  .chart-canvas {
+    max-height: 300px;
+  }
+}
+
+@media (max-width: 640px) {
+  .chart-canvas {
+    max-height: 250px;
+  }
+}
+
+// Tema oscuro
+@media (prefers-color-scheme: dark) {
+  .chart-canvas {
+    filter: brightness(0.9);
+  }
+}
+
+// Estados de interacción
+.chart-canvas {
+  &:hover {
+    cursor: crosshair;
+  }
+  
+  &:focus {
+    outline: 2px solid rgba(0, 102, 255, 0.5);
+    outline-offset: 2px;
+  }
+}
+
+// Variantes de tamaño
+.chart-canvas--small {
+  max-height: 200px;
+}
+
+.chart-canvas--medium {
+  max-height: 400px;
+}
+
+.chart-canvas--large {
+  max-height: 600px;
+}
+
+.chart-canvas--extra-large {
+  max-height: 800px;
+}
+
+// Estados de accesibilidad
+.chart-canvas {
+  // Asegurar que el canvas sea accesible
+  &:not([aria-label]) {
+    // Si no tiene aria-label, agregar uno genérico
+    // Esto se maneja en el componente TypeScript
+  }
+}

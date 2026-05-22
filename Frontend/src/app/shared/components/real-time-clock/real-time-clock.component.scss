@@ -1,0 +1,285 @@
+// Reloj en Tiempo Real - Estilos Glass-Panel
+.real-time-clock {
+  .clock-container {
+    background: rgba(17, 24, 39, 0.6);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 0.75rem;
+    padding: 0.5rem 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    min-width: 400px;
+    max-width: 500px;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+  }
+
+  // Contenedor horizontal para el reloj
+  .clock-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  // Sección de Saludo - Horizontal
+  .greeting-section {
+    flex: 0 0 auto;
+    text-align: left;
+
+    .greeting-text {
+      font-size: 0.9rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.1rem;
+      animation: glow 3s ease-in-out infinite alternate;
+      white-space: nowrap;
+    }
+
+    .date-info {
+      .day-name {
+        color: #60a5fa;
+        font-size: 0.75rem;
+        font-weight: 500;
+        margin-bottom: 0;
+        text-transform: capitalize;
+        white-space: nowrap;
+      }
+
+      .full-date {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.7rem;
+        font-weight: 400;
+        display: none; // Ocultar en header horizontal
+      }
+    }
+  }
+
+  // Sección de Hora - Horizontal
+  .time-section {
+    flex: 1 1 auto;
+    text-align: center;
+    margin-bottom: 0;
+
+    .time-display {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.1rem;
+      font-family: 'Courier New', monospace;
+
+      .time-digit {
+        background: rgba(59, 130, 246, 0.15);
+        color: #60a5fa;
+        font-size: 1.2rem;
+        font-weight: 600;
+        padding: 0.2rem 0.3rem;
+        border-radius: 0.375rem;
+        border: 1px solid rgba(59, 130, 246, 0.25);
+        min-width: 2rem;
+        text-align: center;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.2), transparent);
+          transition: left 0.5s;
+        }
+
+        &:hover::before {
+          left: 100%;
+        }
+
+        &.hours {
+          background: rgba(59, 130, 246, 0.15);
+          border-color: rgba(59, 130, 246, 0.25);
+          color: #60a5fa;
+        }
+
+        &.minutes {
+          background: rgba(139, 92, 246, 0.15);
+          border-color: rgba(139, 92, 246, 0.25);
+          color: #a78bfa;
+        }
+
+        &.seconds {
+          background: rgba(236, 72, 153, 0.15);
+          border-color: rgba(236, 72, 153, 0.25);
+          color: #f472b6;
+          animation: pulse 1s ease-in-out infinite;
+        }
+      }
+
+      .time-separator {
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 1.2rem;
+        font-weight: 600;
+        animation: blink 2s ease-in-out infinite;
+      }
+    }
+
+    .seconds-progress {
+      display: none; // Ocultar en diseño horizontal
+    }
+  }
+
+  // Información de Sesión - Oculta en header horizontal
+  .session-info {
+    display: none; // Ocultar en header horizontal
+  }
+
+  // Progreso del Día - Oculto en header horizontal
+  .day-progress {
+    display: none; // Ocultar en header horizontal
+  }
+
+  // Estilos para iconos de fuentes de ingresos
+  .income-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    filter: brightness(1.2) saturate(1.3);
+    transition: all 0.2s ease;
+  }
+
+  .income-source:hover .income-icon {
+    filter: brightness(1.5) saturate(1.5);
+    transform: scale(1.1);
+  }
+
+  // Estilos específicos para el icono verde de patrimonio
+  .income-icon.green {
+    filter: brightness(1.3) saturate(1.5);
+    transition: all 0.2s ease;
+  }
+
+  .income-source:hover .income-icon.green {
+    filter: brightness(1.6) saturate(1.8);
+    transform: scale(1.1);
+  }
+
+  // Animaciones
+  @keyframes glow {
+    from {
+      filter: brightness(1);
+    }
+    to {
+      filter: brightness(1.2);
+    }
+  }
+
+  @keyframes blink {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.3;
+    }
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.05);
+      opacity: 0.8;
+    }
+  }
+
+  // Responsive
+  @media (max-width: 1024px) {
+    .clock-container {
+      padding: 0.5rem 0.75rem;
+      min-width: 250px;
+    }
+
+    .greeting-section {
+      margin-bottom: 0.5rem;
+
+      .greeting-text {
+        font-size: 1rem;
+        margin-bottom: 0.1rem;
+      }
+
+      .date-info {
+        .day-name {
+          font-size: 0.8rem;
+        }
+      }
+    }
+
+    .time-section {
+      margin-bottom: 0.5rem;
+
+      .time-display {
+        margin-bottom: 0.25rem;
+
+        .time-digit {
+          font-size: 1.2rem;
+          padding: 0.2rem 0.3rem;
+          min-width: 2rem;
+        }
+
+        .time-separator {
+          font-size: 1.2rem;
+        }
+      }
+
+      .seconds-progress {
+        height: 2px;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .clock-container {
+      padding: 0.4rem 0.6rem;
+      min-width: 200px;
+    }
+
+    .greeting-section {
+      margin-bottom: 0.3rem;
+
+      .greeting-text {
+        font-size: 0.9rem;
+      }
+
+      .date-info {
+        .day-name {
+          font-size: 0.75rem;
+        }
+      }
+    }
+
+    .time-section {
+      margin-bottom: 0.3rem;
+
+      .time-display {
+        .time-digit {
+          font-size: 1rem;
+          padding: 0.15rem 0.25rem;
+          min-width: 1.8rem;
+        }
+
+        .time-separator {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+}

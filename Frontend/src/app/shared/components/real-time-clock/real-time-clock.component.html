@@ -1,0 +1,52 @@
+<div class="real-time-clock" *ngIf="dateTimeInfo">
+  <!-- Contenedor Principal -->
+  <div class="clock-container">
+    <!-- Saludo y Fecha -->
+    <div class="greeting-section">
+      <div class="greeting-text">{{ greeting }}</div>
+      <div class="date-info">
+        <div class="day-name">{{ dateTimeInfo.dayOfWeek }}</div>
+        <div class="full-date">{{ dateTimeInfo.currentDateFormatted }}</div>
+      </div>
+    </div>
+
+    <!-- Hora Principal -->
+    <div class="time-section">
+      <div class="time-display">
+        <span class="time-digit hours">{{ dateTimeInfo.hours.toString().padStart(2, '0') }}</span>
+        <span class="time-separator">:</span>
+        <span class="time-digit minutes">{{ dateTimeInfo.minutes.toString().padStart(2, '0') }}</span>
+        <span class="time-separator">:</span>
+        <span class="time-digit seconds">{{ dateTimeInfo.seconds.toString().padStart(2, '0') }}</span>
+      </div>
+      
+      <!-- Barra de Progreso de Segundos -->
+      <div class="seconds-progress">
+        <div class="progress-bar" [style.width.%]="getProgressPercentage()"></div>
+      </div>
+    </div>
+
+    <!-- Información de Sesión -->
+    <div class="session-info">
+      <div class="session-start">
+        <i class="fas fa-sign-in-alt"></i>
+        <span>Sesión iniciada: {{ dateTimeInfo.sessionStartTime.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' }) }}</span>
+      </div>
+      <div class="session-duration">
+        <i class="fas fa-clock"></i>
+        <span>Tiempo activo: {{ dateTimeInfo.sessionDuration }}</span>
+      </div>
+    </div>
+
+    <!-- Progreso del Día -->
+    <div class="day-progress">
+      <div class="progress-label">
+        <span>Progreso del día</span>
+        <span>{{ getDayProgress().toFixed(1) }}%</span>
+      </div>
+      <div class="progress-bar-container">
+        <div class="progress-bar day-bar" [style.width.%]="getDayProgress()"></div>
+      </div>
+    </div>
+  </div>
+</div>

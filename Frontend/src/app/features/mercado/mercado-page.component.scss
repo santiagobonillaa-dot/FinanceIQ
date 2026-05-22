@@ -1,0 +1,354 @@
+// Estilos específicos para el componente de mercado
+.chart-content-extra-large {
+  height: 350px;
+  width: 100%;
+}
+
+// Estilos para el panel de mercado
+.mercado-info-label {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 0.25rem;
+}
+
+.mercado-info-value {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+}
+
+// Estilos para el botón de favorito
+.star-favorite {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  transition: all 0.2s ease;
+  color: rgba(255, 255, 255, 0.6);
+  
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fbbf24;
+  }
+  
+  &.active {
+    color: #fbbf24;
+  }
+}
+
+// Estilos para la tabla de mercado
+.market-table {
+  width: 100%;
+  border-collapse: collapse;
+  
+  th,
+  td {
+    text-align: left;
+    padding: 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  th {
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+  
+  tr:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+}
+
+// Estilos para los badges de activos
+.asset-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  
+  .asset-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.875rem;
+  }
+  
+  .asset-name {
+    font-weight: 500;
+    color: white;
+  }
+}
+
+// Estilos para los indicadores de rendimiento
+.performance-indicator {
+  &.positive {
+    color: #22c55e;
+  }
+  
+  &.negative {
+    color: #ef4444;
+  }
+  
+  &.neutral {
+    color: #9ca3af;
+  }
+}
+
+// Estilos para los paneles de métricas
+.metric-panel {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  padding: 2rem;
+  
+  .metric-label {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 0.5rem;
+  }
+  
+  .metric-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 0.5rem;
+  }
+  
+  .metric-change {
+    font-size: 1.125rem;
+    font-weight: 600;
+    
+    &.positive {
+      color: #22c55e;
+    }
+    
+    &.negative {
+      color: #ef4444;
+    }
+  }
+}
+
+// Estilos para el buscador
+.search-container {
+  position: relative;
+  
+  .search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: rgba(255, 255, 255, 0.4);
+  }
+  
+  .search-input {
+    width: 100%;
+    padding-left: 2.5rem;
+    padding-right: 1rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    background: rgba(31, 41, 55, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    color: white;
+    
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+    
+    &:focus {
+      outline: none;
+      border-color: rgba(59, 130, 246, 0.5);
+      background: rgba(31, 41, 55, 0.7);
+    }
+  }
+}
+
+// Estilos para el toggle de moneda
+.currency-toggle {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  
+  .toggle-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .toggle-slider {
+    width: 2.75rem;
+    height: 1.5rem;
+    background: #374151;
+    border-radius: 9999px;
+    position: relative;
+    transition: background-color 0.2s ease;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0.125rem;
+      left: 0.125rem;
+      width: 1.25rem;
+      height: 1.25rem;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.2s ease;
+    }
+  }
+  
+  .toggle-input:checked + .toggle-slider {
+    background: #3b82f6;
+    
+    &::after {
+      transform: translateX(1.25rem);
+    }
+  }
+  
+  .toggle-label {
+    margin-left: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: white;
+  }
+}
+
+// Animaciones
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.market-panel {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.chart-panel {
+  animation: fadeIn 0.8s ease-out 0.2s;
+}
+
+.summary-panel {
+  animation: fadeIn 0.8s ease-out 0.4s;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .chart-content-extra-large {
+    height: 250px;
+  }
+  
+  .metric-panel {
+    padding: 1.5rem;
+    
+    .metric-value {
+      font-size: 2rem;
+    }
+  }
+  
+  .market-table {
+    font-size: 0.75rem;
+    
+    th,
+    td {
+      padding: 0.5rem;
+    }
+  }
+  
+  .asset-badge .asset-icon {
+    width: 2rem;
+    height: 2rem;
+    font-size: 0.75rem;
+  }
+}
+
+// Efectos hover
+.market-row:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+  transition: background-color 0.2s ease;
+}
+
+.metric-panel:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transition: background-color 0.2s ease;
+}
+
+// Estilos para el estado del mercado
+.market-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  
+  .status-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    
+    &.open {
+      background-color: #22c55e;
+      animation: pulse 2s infinite;
+    }
+    
+    &.closed {
+      background-color: #ef4444;
+    }
+    
+    &.pre-market {
+      background-color: #f59e0b;
+    }
+  }
+  
+  .status-text {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+// Estilos para los botones de tiempo
+.time-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 5rem;
+  
+  .time-button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.6);
+    background: none;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      color: white;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    &.active {
+      color: white;
+      background: rgba(59, 130, 246, 0.2);
+      border: 1px solid rgba(59, 130, 246, 0.5);
+    }
+  }
+}

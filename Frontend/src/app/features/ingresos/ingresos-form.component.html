@@ -1,0 +1,313 @@
+<div class="container-fluid py-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-sm">
+        <div class="card-header bg-success text-white">
+          <h4 class="mb-0">
+            <i class="fas fa-plus-circle me-2"></i>
+            Nuevo Ingreso
+          </h4>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="incomeForm" (ngSubmit)="onSubmit()" id="incomeForm">
+            <!-- Información Básica -->
+            <div class="row mb-4">
+              <div class="col-md-6">
+                <label for="name" class="form-label">Nombre del Ingreso *</label>
+                <input 
+                  type="text" 
+                  id="name" 
+                  class="form-control" 
+                  formControlName="name"
+                  placeholder="Ej: Salario, Freelance, Inversiones"
+                  [class.is-invalid]="name?.invalid && name?.touched"
+                >
+                <div class="invalid-feedback" *ngIf="name?.invalid && name?.touched">
+                  <div *ngIf="name?.errors?.['required']">El nombre es requerido</div>
+                  <div *ngIf="name?.errors?.['minlength']">Mínimo 3 caracteres</div>
+                  <div *ngIf="name?.errors?.['maxlength']">Máximo 100 caracteres</div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="amount" class="form-label">Monto *</label>
+                <div class="input-group">
+                  <span class="input-group-text">{{ getCurrencySymbol() }}</span>
+                  <input 
+                    type="number" 
+                    id="amount" 
+                    class="form-control" 
+                    formControlName="amount"
+                    placeholder="0.00"
+                    step="0.01"
+                    [class.is-invalid]="amount?.invalid && amount?.touched"
+                  >
+                </div>
+                <div class="invalid-feedback" *ngIf="amount?.invalid && amount?.touched">
+                  <div *ngIf="amount?.errors?.['required']">El monto es requerido</div>
+                  <div *ngIf="amount?.errors?.['min']">El monto debe ser mayor a 0</div>
+                  <div *ngIf="amount?.errors?.['max']">El monto es demasiado grande</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Moneda, Tipo y Categoría -->
+            <div class="row mb-4">
+              <div class="col-md-4">
+                <label for="currency" class="form-label">Moneda *</label>
+                <select 
+                  id="currency" 
+                  class="form-select" 
+                  formControlName="currency"
+                  [class.is-invalid]="currency?.invalid && currency?.touched"
+                >
+                  <option *ngFor="let currency of currencies" [value]="currency.value">
+                    {{ currency.label }}
+                  </option>
+                </select>
+                <div class="invalid-feedback" *ngIf="currency?.invalid && currency?.touched">
+                  La moneda es requerida
+                </div>
+              </div>
+              <div class="col-md-4">
+                <label for="type" class="form-label">Tipo *</label>
+                <select 
+                  id="type" 
+                  class="form-select" 
+                  formControlName="type"
+                  [class.is-invalid]="type?.invalid && type?.touched"
+                >
+                  <option *ngFor="let typeOption of types" [value]="typeOption.value">
+                    {{ typeOption.label }}
+                  </option>
+                </select>
+                <div class="invalid-feedback" *ngIf="type?.invalid && type?.touched">
+                  El tipo es requerido
+                </div>
+              </div>
+              <div class="col-md-4">
+                <label for="category" class="form-label">Categoría *</label>
+                <select 
+                  id="category" 
+                  class="form-select" 
+                  formControlName="category"
+                  [class.is-invalid]="category?.invalid && category?.touched"
+                >
+                  <option *ngFor="let category of categories" [value]="category.value">
+                    {{ category.label }}
+                  </option>
+                </select>
+                <div class="invalid-feedback" *ngIf="category?.invalid && category?.touched">
+                  La categoría es requerida
+                </div>
+              </div>
+            </div>
+
+            <!-- Frecuencia y Fechas -->
+            <div class="row mb-4">
+              <div class="col-md-4">
+                <label for="frequency" class="form-label">Frecuencia *</label>
+                <select 
+                  id="frequency" 
+                  class="form-select" 
+                  formControlName="frequency"
+                  (change)="onFrequencyChange()"
+                  [class.is-invalid]="frequency?.invalid && frequency?.touched"
+                >
+                  <option *ngFor="let frequency of frequencies" [value]="frequency.value">
+                    {{ frequency.label }}
+                  </option>
+                </select>
+                <div class="invalid-feedback" *ngIf="frequency?.invalid && frequency?.touched">
+                  La frecuencia es requerida
+                </div>
+              </div>
+              <div class="col-md-4">
+                <label for="startDate" class="form-label">Fecha Inicio *</label>
+                <input 
+                  type="date" 
+                  id="startDate" 
+                  class="form-control" 
+                  formControlName="startDate"
+                  [class.is-invalid]="startDate?.invalid && startDate?.touched"
+                >
+                <div class="invalid-feedback" *ngIf="startDate?.invalid && startDate?.touched">
+                  La fecha de inicio es requerida
+                </div>
+              </div>
+              <div class="col-md-4">
+                <label for="endDate" class="form-label">Fecha Fin</label>
+                <input 
+                  type="date" 
+                  id="endDate" 
+                  class="form-control" 
+                  formControlName="endDate"
+                  [class.is-invalid]="endDate?.invalid && endDate?.touched"
+                >
+                <small class="form-text text-muted">
+                  Solo para ingresos recurrentes con fecha de finalización
+                </small>
+              </div>
+            </div>
+
+            <!-- Prioridad y Método de Pago -->
+            <div class="row mb-4">
+              <div class="col-md-6">
+                <label for="priority" class="form-label">Prioridad *</label>
+                <select 
+                  id="priority" 
+                  class="form-select" 
+                  formControlName="priority"
+                  [class.is-invalid]="priority?.invalid && priority?.touched"
+                >
+                  <option *ngFor="let priority of priorities" [value]="priority.value">
+                    {{ priority.label }}
+                  </option>
+                </select>
+                <div class="invalid-feedback" *ngIf="priority?.invalid && priority?.touched">
+                  La prioridad es requerida
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="paymentMethod" class="form-label">Método de Pago *</label>
+                <select 
+                  id="paymentMethod" 
+                  class="form-select" 
+                  formControlName="paymentMethod"
+                  [class.is-invalid]="paymentMethod?.invalid && paymentMethod?.touched"
+                >
+                  <option *ngFor="let method of paymentMethods" [value]="method.value">
+                    {{ method.label }}
+                  </option>
+                </select>
+                <div class="invalid-feedback" *ngIf="paymentMethod?.invalid && paymentMethod?.touched">
+                  El método de pago es requerido
+                </div>
+              </div>
+            </div>
+
+            <!-- Descripción -->
+            <div class="row mb-4">
+              <div class="col-12">
+                <label for="description" class="form-label">Descripción</label>
+                <textarea 
+                  id="description" 
+                  class="form-control" 
+                  formControlName="description"
+                  rows="3"
+                  placeholder="Agrega notas adicionales sobre este ingreso..."
+                  [class.is-invalid]="description?.invalid && description?.touched"
+                ></textarea>
+                <div class="invalid-feedback" *ngIf="description?.invalid && description?.touched">
+                  Máximo 500 caracteres
+                </div>
+              </div>
+            </div>
+
+            <!-- Opciones Adicionales -->
+            <div class="row mb-4">
+              <div class="col-md-6">
+                <div class="form-check">
+                  <input 
+                    type="checkbox" 
+                    id="isTaxable" 
+                    class="form-check-input" 
+                    formControlName="isTaxable"
+                  >
+                  <label for="isTaxable" class="form-check-label">
+                    Es gravable con impuestos
+                  </label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-check">
+                  <input 
+                    type="checkbox" 
+                    id="isActive" 
+                    class="form-check-input" 
+                    formControlName="isActive"
+                  >
+                  <label for="isActive" class="form-check-label">
+                    Ingreso activo
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tags -->
+            <div class="row mb-4">
+              <div class="col-12">
+                <label class="form-label">Etiquetas</label>
+                <div class="d-flex flex-wrap gap-2 mb-2">
+                  <span 
+                    *ngFor="let tag of tags" 
+                    class="badge bg-success d-flex align-items-center"
+                  >
+                    {{ tag }}
+                    <button 
+                      type="button" 
+                      class="btn-close btn-close-white ms-2" 
+                      (click)="removeTag(tag)"
+                      aria-label="Eliminar etiqueta"
+                    ></button>
+                  </span>
+                </div>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  placeholder="Agregar etiqueta y presionar Enter"
+                  (keyup.enter)="addTag($event)"
+                >
+              </div>
+            </div>
+
+            <!-- Configuración Recurrente -->
+            <div class="row mb-4">
+              <div class="col-12">
+                <h6 class="text-muted mb-3">Configuración de Depósitos Automáticos</h6>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-check">
+                      <input 
+                        type="checkbox" 
+                        id="autoDeposit" 
+                        class="form-check-input" 
+                        formControlName="recurringSettings.autoDeposit"
+                      >
+                      <label for="autoDeposit" class="form-check-label">
+                        Depósito automático
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label for="reminderDays" class="form-label">Días de recordatorio</label>
+                    <input 
+                      type="number" 
+                      id="reminderDays" 
+                      class="form-control" 
+                      formControlName="recurringSettings.reminderDays"
+                      min="0"
+                      max="30"
+                    >
+                  </div>
+                  <div class="col-md-4">
+                    <label for="maxOccurrences" class="form-label">Ocurrencias máximas</label>
+                    <input 
+                      type="number" 
+                      id="maxOccurrences" 
+                      class="form-control" 
+                      formControlName="recurringSettings.maxOccurrences"
+                      min="1"
+                      placeholder="Ilimitado"
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Botones eliminados - El modal maneja los botones -->
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

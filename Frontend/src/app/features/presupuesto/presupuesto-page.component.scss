@@ -1,0 +1,434 @@
+// Estilos específicos para el componente de presupuesto inteligente
+.chart-content-extra-large {
+  height: 500px;
+  width: 100%;
+}
+
+.arc-percentage {
+  color: rgb(0, 216, 151) !important;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.arc-available {
+  color: #8b92a8 !important;
+  font-size: 0.75rem;
+}
+
+// Estilos para el panel principal de IA
+.presupuesto-system-status {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+// Estilos para los botones de período
+.presupuesto-button {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  &.active {
+    background: linear-gradient(135deg, #3b82f6, #00d897);
+    color: white;
+    border-color: transparent;
+  }
+}
+
+// Estilos para el monto principal
+.presupuesto-amount-label {
+  font-size: 1.125rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+}
+
+.presupuesto-amount {
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: white;
+  line-height: 1;
+}
+
+.presupuesto-status {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+// Estilos para los subpaneles
+.presupuesto-subpanel-title {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+}
+
+.presupuesto-subpanel-value {
+  font-size: 1.875rem;
+  font-weight: 700;
+}
+
+// Estilos para los items de compromisos
+.commitment-item {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-1px);
+  }
+  
+  .commitment-icon {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .commitment-info {
+    .commitment-name {
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: white;
+    }
+    
+    .commitment-date {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.4);
+    }
+  }
+  
+  .commitment-amount {
+    text-align: right;
+    
+    .amount-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    
+    .amount-type {
+      font-size: 1rem;
+      font-weight: 500;
+    }
+  }
+}
+
+// Estilos para los insights
+.insight-card {
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  border: 1px solid;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  &.high-priority {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(168, 85, 247, 0.1));
+    border-color: rgba(59, 130, 246, 0.2);
+  }
+  
+  &.medium-priority {
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(59, 130, 246, 0.1));
+    border-color: rgba(34, 197, 94, 0.2);
+  }
+  
+  &.low-priority {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(251, 146, 60, 0.1));
+    border-color: rgba(245, 158, 11, 0.2);
+  }
+  
+  .insight-number {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: white;
+    flex-shrink: 0;
+    margin-top: 0.25rem;
+  }
+  
+  .insight-content {
+    .insight-title {
+      font-size: 1.125rem;
+      font-weight: 500;
+      color: white;
+      margin-bottom: 0.25rem;
+    }
+    
+    .insight-description {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.4);
+      margin-bottom: 0.5rem;
+    }
+    
+    .insight-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      
+      .tag {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        font-weight: 500;
+        
+        &.priority-high {
+          background: rgba(59, 130, 246, 0.2);
+          color: #3b82f6;
+        }
+        
+        &.priority-medium {
+          background: rgba(34, 197, 94, 0.2);
+          color: #22c55e;
+        }
+        
+        &.priority-low {
+          background: rgba(245, 158, 11, 0.2);
+          color: #f59e0b;
+        }
+        
+        &.difficulty-easy {
+          color: #22c55e;
+        }
+        
+        &.difficulty-medium {
+          color: #f59e0b;
+        }
+        
+        &.difficulty-hard {
+          color: #ef4444;
+        }
+      }
+    }
+  }
+}
+
+// Animaciones
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.presupuesto-main-panel {
+  animation: fadeIn 0.6s ease-out;
+}
+
+.presupuesto-secondary-panel {
+  animation: fadeIn 0.8s ease-out 0.2s;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .presupuesto-amount {
+    font-size: 2.5rem;
+  }
+  
+  .presupuesto-button {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+  }
+  
+  .commitment-item {
+    padding: 0.75rem;
+    
+    .commitment-info .commitment-name {
+      font-size: 1.125rem;
+    }
+    
+    .commitment-amount .amount-value {
+      font-size: 1.25rem;
+    }
+  }
+  
+  .insight-card {
+    padding: 0.5rem;
+    
+    .insight-content .insight-title {
+      font-size: 1rem;
+    }
+    
+    .insight-content .insight-description {
+      font-size: 0.875rem;
+    }
+  }
+}
+
+// Efectos hover
+.presupuesto-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.presupuesto-subpanel {
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+  }
+}
+
+// Estilos para el arco de progreso
+.progress-arc {
+  .arc-background {
+    stroke: rgba(255, 255, 255, 0.1);
+    stroke-width: 12;
+    fill: none;
+    stroke-linecap: round;
+  }
+  
+  .arc-progress {
+    stroke-width: 12;
+    fill: none;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.5s ease;
+  }
+  
+  .arc-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+}
+
+// Gradientes personalizados
+.gradient-blue-green {
+  background: linear-gradient(135deg, #0066ff, #00d897);
+}
+
+.gradient-purple-blue {
+  background: linear-gradient(135deg, #a855f7, #3b82f6);
+}
+
+.gradient-green-blue {
+  background: linear-gradient(135deg, #22c55e, #3b82f6);
+}
+
+.gradient-yellow-orange {
+  background: linear-gradient(135deg, #f59e0b, #fb923c);
+}
+
+// Efectos de profundidad
+.depth-shadow {
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    0 1px 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+// Transiciones suaves
+.smooth-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// Estilos para el estado del sistema
+.system-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  
+  .status-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    
+    &.active {
+      background-color: #22c55e;
+      animation: pulse 2s infinite;
+    }
+    
+    &.inactive {
+      background-color: #ef4444;
+    }
+    
+    &.processing {
+      background-color: #f59e0b;
+      animation: pulse 1s infinite;
+    }
+  }
+  
+  .status-text {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 500;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+// Estilos para los badges de prioridad
+.priority-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  
+  &.high {
+    background-color: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+  }
+  
+  &.medium {
+    background-color: rgba(245, 158, 11, 0.2);
+    color: #f59e0b;
+  }
+  
+  &.low {
+    background-color: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+  }
+}
+
+// Estilos para los indicadores de tipo
+.type-indicator {
+  font-size: 0.875rem;
+  font-weight: 500;
+  
+  &.debt {
+    color: #fb923c;
+  }
+  
+  &.fixed {
+    color: #22c55e;
+  }
+  
+  &.variable {
+    color: #3b82f6;
+  }
+  
+  &.stable {
+    color: #06b6d4;
+  }
+}

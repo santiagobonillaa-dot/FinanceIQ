@@ -1,0 +1,171 @@
+// Modal de Confirmación Personalizado - Estilos Glass-Panel
+
+.confirmation-modal {
+  // Animación de entrada
+  &.enter {
+    animation: modalEnter 0.3s ease-out;
+  }
+
+  &.exit {
+    animation: modalExit 0.3s ease-in;
+  }
+}
+
+@keyframes modalEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes modalExit {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+}
+
+// Clases de color dinámicas
+.blue {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+}
+
+.red {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3);
+}
+
+.green {
+  background: linear-gradient(135deg, #10b981, #059669);
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+}
+
+.orange {
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  box-shadow: 0 4px 20px rgba(249, 115, 22, 0.3);
+}
+
+.yellow {
+  background: linear-gradient(135deg, #eab308, #ca8a04);
+  box-shadow: 0 4px 20px rgba(234, 179, 8, 0.3);
+}
+
+// Botón de confirmación dinámico
+.confirm-button-blue {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  border-color: #3b82f6;
+  
+  &:hover:not(:disabled) {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 25px rgba(59, 130, 246, 0.4);
+  }
+}
+
+.confirm-button-red {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  border-color: #ef4444;
+  
+  &:hover:not(:disabled) {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 25px rgba(239, 68, 68, 0.4);
+  }
+}
+
+.confirm-button-green {
+  background: linear-gradient(135deg, #10b981, #059669);
+  border-color: #10b981;
+  
+  &:hover:not(:disabled) {
+    background: linear-gradient(135deg, #059669, #047857);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 25px rgba(16, 185, 129, 0.4);
+  }
+}
+
+.confirm-button-orange {
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  border-color: #f97316;
+  
+  &:hover:not(:disabled) {
+    background: linear-gradient(135deg, #ea580c, #c2410c);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 25px rgba(249, 115, 22, 0.4);
+  }
+}
+
+// Estados deshabilitados
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+// Efectos de hover generales
+button {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s;
+  }
+
+  &:hover:not(:disabled)::before {
+    left: 100%;
+  }
+}
+
+// Input de confirmación
+input {
+  transition: all 0.3s ease;
+  
+  &:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+  }
+
+  &.valid {
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+  }
+
+  &.invalid {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+  }
+}
+
+// Spinner de carga
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+// Responsive
+@media (max-width: 640px) {
+  .modal-container {
+    margin: 1rem;
+    max-width: calc(100vw - 2rem);
+  }
+}

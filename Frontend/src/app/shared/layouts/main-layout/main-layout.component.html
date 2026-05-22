@@ -1,0 +1,176 @@
+<div class="main-layout">
+  <div class="main-layout__container">
+    <!-- Sidebar -->
+    <aside class="main-layout__sidebar">
+      <!-- Logo y Nombre de la App -->
+      <div class="main-layout__logo">
+        <div class="main-layout__logo-icon">
+          <img src="assets/icons/navbar/logo.svg" class="main-layout__logo-img" alt="FinanceIQ" />
+        </div>
+        <span class="main-layout__logo-text">FinanceIQ</span>
+      </div>
+      
+      <nav class="main-layout__nav">
+        <a
+          class="main-layout__nav-item"
+          routerLink="/dashboard"
+          routerLinkActive="main-layout__nav-item--active"
+        >
+          <img src="assets/icons/navbar/dashboard1.svg" class="main-layout__nav-icon main-layout__nav-icon--default" alt="inicio" />
+          <img src="assets/icons/navbar/dashboard2.svg" class="main-layout__nav-icon main-layout__nav-icon--hover" alt="inicio" />
+          <span class="main-layout__nav-text">Inicio</span>
+        </a>
+        
+        <a class="main-layout__nav-item" routerLink="/ingresos" routerLinkActive="main-layout__nav-item--active">
+          <img src="assets/icons/navbar/ingresos1.svg" class="main-layout__nav-icon main-layout__nav-icon--default" alt="ingresos" />
+          <img src="assets/icons/navbar/ingresos2.svg" class="main-layout__nav-icon main-layout__nav-icon--hover" alt="ingresos" />
+          <span class="main-layout__nav-text">Ingresos</span>
+        </a>
+        
+        <a class="main-layout__nav-item" routerLink="/gastos" routerLinkActive="main-layout__nav-item--active">
+          <img src="assets/icons/navbar/gastos1.svg" class="main-layout__nav-icon main-layout__nav-icon--default" alt="gastos" />
+          <img src="assets/icons/navbar/gastos2.svg" class="main-layout__nav-icon main-layout__nav-icon--hover" alt="gastos" />
+          <span class="main-layout__nav-text">Gastos</span>
+        </a>
+        
+        <a class="main-layout__nav-item" routerLink="/deudas" routerLinkActive="main-layout__nav-item--active">
+          <img src="assets/icons/navbar/deudas1.svg" class="main-layout__nav-icon main-layout__nav-icon--default" alt="deudas" />
+          <img src="assets/icons/navbar/deudas2.svg" class="main-layout__nav-icon main-layout__nav-icon--hover" alt="deudas" />
+          <span class="main-layout__nav-text">Deudas</span>
+        </a>
+        
+        <a class="main-layout__nav-item" routerLink="/ahorros" routerLinkActive="main-layout__nav-item--active">
+          <img src="assets/icons/navbar/ahorros1.svg" class="main-layout__nav-icon main-layout__nav-icon--default" alt="ahorros" />
+          <img src="assets/icons/navbar/ahorros2.svg" class="main-layout__nav-icon main-layout__nav-icon--hover" alt="ahorros" />
+          <span class="main-layout__nav-text">Ahorros</span>
+        </a>
+        
+        <a class="main-layout__nav-item" routerLink="/presupuesto" routerLinkActive="main-layout__nav-item--active">
+          <img src="assets/icons/navbar/presupuesto_inteligente1.svg" class="main-layout__nav-icon main-layout__nav-icon--default" alt="presupuesto" />
+          <img src="assets/icons/navbar/presupuesto_inteligente2.svg" class="main-layout__nav-icon main-layout__nav-icon--hover" alt="presupuesto" />
+          <span class="main-layout__nav-text">Presupuesto inteligente</span>
+        </a>
+        
+        <a class="main-layout__nav-item" routerLink="/portafolio" routerLinkActive="main-layout__nav-item--active">
+          <img src="assets/icons/navbar/portafolio1.svg" class="main-layout__nav-icon main-layout__nav-icon--default" alt="portafolio" />
+          <img src="assets/icons/navbar/portafolio2.svg" class="main-layout__nav-icon main-layout__nav-icon--hover" alt="portafolio" />
+          <span class="main-layout__nav-text">Portafolio</span>
+        </a>
+        
+        <a class="main-layout__nav-item" routerLink="/mercado" routerLinkActive="main-layout__nav-item--active">
+          <img src="assets/icons/navbar/mercado1.svg" class="main-layout__nav-icon main-layout__nav-icon--default" alt="mercado" />
+          <img src="assets/icons/navbar/mercado2.svg" class="main-layout__nav-icon main-layout__nav-icon--hover" alt="mercado" />
+          <span class="main-layout__nav-text">Mercado</span>
+        </a>
+        
+        <a class="main-layout__nav-item" routerLink="/alertas" routerLinkActive="main-layout__nav-item--active">
+          <img src="assets/icons/navbar/alertas1.svg" class="main-layout__nav-icon main-layout__nav-icon--default" alt="alertas" />
+          <img src="assets/icons/navbar/alertas2.svg" class="main-layout__nav-icon main-layout__nav-icon--hover" alt="alertas" />
+          <span class="main-layout__nav-text">Alertas</span>
+        </a>
+        
+        <a class="main-layout__nav-item" routerLink="/configuracion" routerLinkActive="main-layout__nav-item--active">
+          <img src="assets/icons/navbar/configuracion1.svg" class="main-layout__nav-icon main-layout__nav-icon--default" alt="configuracion" />
+          <img src="assets/icons/navbar/configuracion2.svg" class="main-layout__nav-icon main-layout__nav-icon--hover" alt="configuracion" />
+          <span class="main-layout__nav-text">Configuración</span>
+        </a>
+      </nav>
+      
+      <div class="main-layout__footer">
+        <a class="main-layout__nav-item main-layout__nav-item--logout" routerLink="/">
+          <img src="assets/icons/navbar/cerrar_sesion1.svg" class="main-layout__nav-icon main-layout__nav-icon--default" alt="cerrar-sesion" />
+          <img src="assets/icons/navbar/cerrar_sesion2.svg" class="main-layout__nav-icon main-layout__nav-icon--hover" alt="cerrar-sesion" />
+          <span class="main-layout__nav-text">Cerrar Sesión</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Área Principal -->
+    <div class="main-layout__main">
+      <!-- Topbar -->
+      <header class="main-layout__header">
+        <div class="main-layout__header-content">
+          <div class="main-layout__header-left">
+            <button class="main-layout__menu-toggle lg:hidden">
+              <img src="assets/icons/navbar/dashboard1.svg" class="w-6 h-6" alt="menu" />
+            </button>
+            <h1 class="main-layout__title">{{ pageTitle }}</h1>
+          </div>
+          
+          <div class="main-layout__header-center">
+            <app-real-time-clock></app-real-time-clock>
+          </div>
+          
+          <div class="main-layout__user-panel relative">
+            <button 
+              class="main-layout__user-trigger flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-white font-bold hover:from-blue-600 hover:to-blue-700 transition-all duration-300 shadow-lg"
+              (click)="toggleUserMenu()"
+              title="Mi perfil y configuración"
+            >
+              {{ userInitials }}
+            </button>
+            
+            <!-- Menú desplegable -->
+            <div 
+              class="absolute top-full right-0 mt-2 w-64 bg-gray-900 border border-white/10 rounded-lg shadow-2xl overflow-hidden z-50"
+              [class.opacity-100]="showUserMenu"
+              [class.visible]="showUserMenu"
+              [class.opacity-0]="!showUserMenu"
+              [class.invisible]="!showUserMenu"
+              [class.pointer-events-none]="!showUserMenu"
+              [class.transform]="!showUserMenu"
+              [class.scale-95]="!showUserMenu"
+              [class.translate-y-2]="!showUserMenu"
+            >
+              <!-- Encabezado del menú -->
+              <div class="p-4 border-b border-white/10">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-white flex items-center justify-center">
+                      <i class="fas fa-user text-sm"></i>
+                    </div>
+                    <div>
+                      <h4 class="text-white font-semibold">{{ userProfile?.name || 'Usuario' }}</h4>
+                      <p class="text-white/60 text-sm">{{ userProfile?.email || 'usuario@ejemplo.com' }}</p>
+                    </div>
+                  </div>
+                  <button 
+                    class="text-white/60 hover:text-white hover:bg-white/10 rounded-lg p-2"
+                    (click)="closeUserMenu()"
+                  >
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              
+              <!-- Opciones del menú -->
+              <div class="p-2">
+                <a href="#" class="block px-4 py-2 text-white hover:bg-white/10 rounded-lg transition-colors">
+                  <i class="fas fa-user-circle mr-2"></i>
+                  Mi Perfil
+                </a>
+                <a href="#" class="block px-4 py-2 text-white hover:bg-white/10 rounded-lg transition-colors">
+                  <i class="fas fa-cog mr-2"></i>
+                  Configuración
+                </a>
+                <div class="border-t border-white/10 pt-2 mt-2">
+                  <a href="#" class="block px-4 py-2 text-white/60 hover:bg-white/10 rounded-lg transition-colors" (click)="logout()">
+                    <i class="fas fa-sign-out-alt mr-2"></i>
+                    Cerrar Sesión
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Contenido Principal -->
+      <main class="main-layout__content">
+        <div class="main-layout__content-wrapper">
+          <ng-content></ng-content>
+        </div>
+      </main>
+    </div>
+  </div>
+</div>
