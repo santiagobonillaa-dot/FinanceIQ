@@ -1,16 +1,8 @@
 {
-  "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist/finance-iq"
-      }
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
-  ],
-  "installCommand": "npm install",
-  "buildCommand": "ng build",
-  "outputDirectory": "dist/finance-iq",
-  "framework": "angular"
+  ]
 }
