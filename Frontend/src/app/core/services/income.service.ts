@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface Income {
   _id: string;
@@ -34,7 +35,7 @@ export interface Income {
   providedIn: 'root'
 })
 export class IncomeService {
-  private apiUrl = 'http://localhost:4000/api';
+  private apiUrl = environment.apiUrl;
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { map, catchError, delay } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 export interface Expense {
   id?: number;
@@ -23,8 +24,8 @@ export interface Expense {
   providedIn: 'root'
 })
 export class ExpenseService {
-  private apiUrl = 'http://localhost:4000/api/expenses'; // URL del backend real
-  
+  private apiUrl = `${environment.apiUrl}/expenses`; 
+
   // Datos de prueba para simulación (backup)
   private mockExpenses: Expense[] = [
     {
