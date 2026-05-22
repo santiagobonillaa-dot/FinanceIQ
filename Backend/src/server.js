@@ -20,7 +20,6 @@ dotenv.config();
 connectDB();
 
 const app = express();
-const PORT = process.env.PORT || 4000;
 
 // Middleware
 app.use(cors({
@@ -48,7 +47,9 @@ app.use('/api/alerts', alertsRoutes);
 // Middleware de manejo de errores
 app.use(errorHandler);
 
+// Iniciar servidor (Unificado al final)
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Backend API running on http://localhost:${PORT}`);
-  console.log(`Frontend URL: ${process.env.FRONTEND_URL || 'http://localhost:4200'}`);
+  console.log(`Backend API running on port ${PORT}`);
+  console.log(`Frontend URL permitida: ${process.env.FRONTEND_URL || 'http://localhost:4200'}`);
 });
